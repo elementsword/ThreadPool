@@ -7,6 +7,16 @@ bool Log::IsInitialized = false;
 
 Log *Log::getInstance()
 {
+    if (!_instance)
+    {
+        // 锁定 防止一次建立多个
+        std::lock_guard<std::mutex> lock(_mutex);
+        if (!_instance)
+        {
+            _instance=new Log();
+        }
+    }
+    return _instance;
 }
 // 构造
 Log::Log() : root(log4cpp::Category::getRoot())
@@ -46,36 +56,42 @@ void Log::initialize(const std::string &filename, log4cpp::Priority::Value level
     if (consoleOutput)
     {
         log4cpp::PatternLayout *consoleLayout = new log4cpp::PatternLayout();
-        layout->setConversionPattern(pattern);
-        //输出流
+        consoleLayout->setConversionPattern(pattern);
+        // 输出流
         log4cpp::Appender *consoleAppender = new log4cpp::OstreamAppender("consoleAppender", &std::cout);
-
         root.addAppender(consoleAppender);
     }
     // 设置日志等级
     root.setPriority(level);
 
-    //已初始化
-    IsInitialized=true;
+    // 已初始化
+    IsInitialized = true;
 }
 
-void Log::log(log4cpp::Priority::Value level, const std::string& message){
-    if(IsInitialized){
-        root.log(level,message);
+void Log::log(log4cpp::Priority::Value level, const std::string &message)
+{
+    if (IsInitialized)
+    {
+        root.log(level, message);
     }
 }
-void Log::debug(const std::string& message){
-    log(log4cpp::Priority::DEBUG,message);
+void Log::debug(const std::string &message)
+{
+    log(log4cpp::Priority::DEBUG, message);
 }
-void Log::info(const std::string& message){
-    log(log4cpp::Priority::INFO,message);
+void Log::info(const std::string &message)
+{
+    log(log4cpp::Priority::INFO, message);
 }
-void Log::warn(const std::string& message){
-    log(log4cpp::Priority::WARN,message);
+void Log::warn(const std::string &message)
+{
+    log(log4cpp::Priority::WARN, message);
 }
-void Log::error(const std::string& message){
-    log(log4cpp::Priority::ERROR,message);
+void Log::error(const std::string &message)
+{
+    log(log4cpp::Priority::ERROR, message);
 }
-void Log::fatal(const std::string& message){
-    log(log4cpp::Priority::FATAL,message);
+void Log::fatal(const std::string &message)
+{
+    log(log4cpp::Priority::FATAL, message);
 }

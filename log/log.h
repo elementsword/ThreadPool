@@ -22,7 +22,7 @@ public:
     void initialize(
         const std::string& filename = "default.log",
         log4cpp::Priority::Value level = log4cpp::Priority::DEBUG,
-        bool consoleOutput = true,
+        bool consoleOutput = false,
         const std::string& pattern = "%d [%p] %m%n");
 
     // 日志记录接口
