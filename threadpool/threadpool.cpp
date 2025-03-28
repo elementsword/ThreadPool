@@ -1,6 +1,8 @@
 #include "threadpool.h"
 ThreadPool::ThreadPool(int size) : poolSize(size), isStop(false)
 {
+    //线程池创建
+    LOG_INFO("ThreadPool created with size: " + std::to_string(poolSize));
     for (int i = 0; i < poolSize; i++)
     {
         _threads.emplace_back(std::thread(&ThreadPool::workThread, this));

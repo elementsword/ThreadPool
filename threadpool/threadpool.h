@@ -6,6 +6,7 @@
 #include <mutex>
 #include <condition_variable>
 #include "../task/task.h"
+#include "../log/log.h"
 class ThreadPool
 {
 public:
