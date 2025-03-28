@@ -1,7 +1,7 @@
 #include "threadpool.h"
 ThreadPool::ThreadPool(int size) : poolSize(size), isStop(false)
 {
-    for (size_t i = 0; i < poolSize; i++)
+    for (int i = 0; i < poolSize; i++)
     {
         _threads.emplace_back(std::thread(&ThreadPool::workThread, this));
     }
@@ -12,7 +12,7 @@ ThreadPool::~ThreadPool()
     isStop = true;
     // 唤醒所有线程
     condition.notify_all();
-    for (size_t i = 0; i < poolSize; i++)
+    for (int i = 0; i < poolSize; i++)
     {
         // 等待资源释放退出
         _threads[i].join();
