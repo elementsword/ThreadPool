@@ -46,6 +46,40 @@ Server::~Server()
     close(epollFd);
 }
 
+void Server::start()
+{
+    // 将监听套接字添加到 epoll 实例
+    struct epoll_event event;
+    event.events = EPOLLIN;
+    event.data.fd = serverSocket;
+    if (epoll_ctl(epollFd, EPOLL_CTL_ADD, serverSocket, &event) < 0)
+    {
+        LOG_ERROR("epoll_ctl failed");
+        close(serverSocket);
+        exit(EXIT_FAILURE);
+    }
+
+    LOG_INFO("Server started on port " + std::to_string(port));
+
+    while (true)
+    {
+        // 等待事件发生
+        struct epoll_event events[10];
+        int numEvents = epoll_wait(epollFd, events, 10, -1);
+        for (int i = 0; i < numEvents; ++i)
+        {
+            if (events[i].data.fd == serverSocket)
+            {
+                handleNewConnection();
+            }
+            else
+            {
+                handleClientMessage(events[i].data.fd);
+            }
+        }
+    }
+}
+
 // 处理新连接
 void Server::handleNewConnection()
 {
