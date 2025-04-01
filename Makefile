@@ -8,20 +8,31 @@ CXXFLAGS = -Wall -Wextra -std=c++11 -g
 TARGET = app
 
 # 源文件和头文件路径
-SRCDIR = main log task threadpool Server	
+ClientSRCDIR = mainClient Client
+ServerSRCDIR = mainServer log task threadpool Server	
 INCLUDE = -Ilog
 
 # 找到所有源文件
-SRC = $(foreach dir, $(SRCDIR), $(wildcard $(dir)/*.cpp))
+CLIENT_SRC = $(foreach dir, $(ClientSRCDIR), $(wildcard $(dir)/*.cpp))
+SERVER_SRC = $(foreach dir, $(ServerSRCDIR), $(wildcard $(dir)/*.cpp))
 
 # 目标文件
-OBJ = $(SRC:.cpp=.o)
+CLIENT_OBJ = $(CLIENT_SRC:.cpp=.o)
+SERVER_OBJ = $(SERVER_SRC:.cpp=.o)
 
 # 依赖 log4cpp
 LIBS = -llog4cpp
 
-# 生成可执行文件
-$(TARGET): $(OBJ)
+# 目标可执行文件
+CLIENT_TARGET = client
+SERVER_TARGET = server
+
+# 生成 client 可执行文件
+$(CLIENT_TARGET): $(CLIENT_OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
+
+# 生成 server 可执行文件
+$(SERVER_TARGET): $(SERVER_OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
 
 # 编译所有 .cpp 文件
@@ -30,8 +41,8 @@ $(TARGET): $(OBJ)
 
 # 清理
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f $(CLIENT_OBJ) $(SERVER_OBJ) $(CLIENT_TARGET) $(SERVER_TARGET)
 
-# 运行
-run: $(TARGET)
-	./$(TARGET)
+
+# 默认目标（构建 client 和 server）
+all: $(CLIENT_TARGET) $(SERVER_TARGET)
