@@ -33,6 +33,55 @@ void Client::connectToServer()
         return;
     }
     std::cout << "Connected to server: " << serverIp << ":" << port << std::endl;
+    epollFd = epoll_create1(0);
+    if (epollFd < 0)
+    {
+        handleError("epoll_create1 failed");
+        return;
+    }
+    struct epoll_event event;
+    event.events = EPOLLIN;
+    event.data.fd = clientSocket; //监听客户端套接字
+    if (epoll_ctl(epollFd, EPOLL_CTL_ADD, clientSocket, &event) < 0)
+    {
+        handleError("epoll_ctl clientSocket failed");
+        return;
+    }
+    event.data.fd = STDIN_FILENO; // 监听标准输入
+    if (epoll_ctl(epollFd, EPOLL_CTL_ADD, STDIN_FILENO, &event) < 0)
+    {
+        handleError("epoll_ctl STDIN_FILENO failed");
+        return;
+    }
+    std::cout << "epoll_ctl clientSocket and STDIN_FILENO success" << std::endl;
+
+    while (true)
+    {
+        struct epoll_event events[2];
+        // 等待事件发生 拷贝
+        int numEvents = epoll_wait(epollFd, events, 2, -1);
+        for (int i = 0; i < numEvents; ++i)
+        {
+            if (events[i].data.fd == clientSocket)
+            {
+                std::string message = receiveMessage();
+                if (message.empty())
+                {
+                    std::cout << "Server closed connection." << std::endl;
+                    closeConnection();
+                    return;
+                }
+                std::cout << "Received message: " << message << std::endl;
+            }
+            else if (events[i].data.fd == STDIN_FILENO)
+            {
+                std::string message;
+                std::getline(std::cin, message);
+                sendMessage(message);
+            }
+        }
+    }
+    
 }
 // 发送消息
 void Client::sendMessage(const std::string &message)
@@ -73,7 +122,7 @@ void Client::closeConnection()
 // 错误处理函数
 void Client::handleError(const std::string &errorMessage)
 {
-    std::cerr << "Error: " << errorMessage << std::endl;
+    LOG_ERROR(errorMessage); // 记录错误日志
     closeConnection(); // 关闭连接
     exit(EXIT_FAILURE); // 退出程序
 } 
