@@ -8,7 +8,7 @@ CXXFLAGS = -Wall -Wextra -std=c++11 -g
 TARGET = app
 
 # 源文件和头文件路径
-ClientSRCDIR = mainClient Client
+ClientSRCDIR = mainClient Client log
 ServerSRCDIR = mainServer log task threadpool Server	
 INCLUDE = -Ilog
 

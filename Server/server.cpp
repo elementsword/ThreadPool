@@ -140,6 +140,6 @@ void Server::handleClientMessage(int clientSocket)
     LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
 
     // 创建任务并提交到线程池
-    Task *task = new calculateTask(1, 100); // 示例任务
+    Task *task = new broadcastTask(message,clientSocket,clients); // 示例任务
     threadPool.submit(task);
 }

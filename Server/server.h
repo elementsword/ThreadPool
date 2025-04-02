@@ -12,6 +12,7 @@
 #include <algorithm>
 #include "../task/task.h"
 #include "../task/calculateTask.h"
+#include "../task/broadcastTask.h"
 #include "../threadpool/threadpool.h"
 
 class Server {
