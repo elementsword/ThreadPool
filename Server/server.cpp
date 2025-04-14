@@ -65,7 +65,7 @@ void Server::start()
     {
         // 等待事件发生
         struct epoll_event events[eventsSize];
-        int numEvents = epoll_wait(epollFd, events, 10, 5);
+        int numEvents = epoll_wait(epollFd, events, 10, 5000);
         if (numEvents < 0)
         {
             LOG_ERROR("epoll_wait failed");
@@ -74,10 +74,11 @@ void Server::start()
         // 超时 告诉所有用户 聊天室中有多少人
         else if (numEvents == 0)
         {
-            for (int i = 0; i < eventsSize; i++)
+            for(int i = 0 ; i < clients.size() ; i++)
             {
-                noticeNumber(events[i].data.fd);
+                noticeNumber(clients[i]);
             }
+            continue;
         }
         for (int i = 0; i < numEvents; ++i)
         {
@@ -162,7 +163,6 @@ void Server::noticeNumber(int clientSocket)
 
     // 处理客户端消息
     std::string message = std::string("该服务器中还有") + std::to_string(personNumber) + std::string("人。");
-    LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
 
     // 创建任务并提交到线程池
     Task *task = new broadcastTask(message, clientSocket, clients); // 示例任务
