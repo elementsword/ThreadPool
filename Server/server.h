@@ -14,7 +14,7 @@
 #include "../task/calculateTask.h"
 #include "../task/broadcastTask.h"
 #include "../threadpool/threadpool.h"
-
+#define eventsSize 1024
 class Server {
 public:
     Server(int port, int threadPoolSize);
@@ -24,6 +24,7 @@ public:
     void start();
 
 private:
+    int personNumber;                  // 人数 
     int serverSocket;                  // 服务器监听套接字
     int epollFd;                       // epoll 文件描述符
     int port;                          // 监听端口
@@ -33,6 +34,7 @@ private:
     void handleNewConnection();        // 处理新连接
     void handleClientMessage(int clientSocket); // 处理客户端消息
     void removeClient(int clientSocket);       // 移除客户端
+    void noticeNumber(int clientSocket);        // 通知服务器上有多少人
 };
 
 #endif
