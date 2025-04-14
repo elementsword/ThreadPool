@@ -60,12 +60,25 @@ void Server::start()
     }
 
     LOG_INFO("Server started on port " + std::to_string(port));
-
+    personNumber = 0;
     while (true)
     {
         // 等待事件发生
-        struct epoll_event events[10];
-        int numEvents = epoll_wait(epollFd, events, 10, -1);
+        struct epoll_event events[eventsSize];
+        int numEvents = epoll_wait(epollFd, events, 10, 5);
+        if (numEvents < 0)
+        {
+            LOG_ERROR("epoll_wait failed");
+            return;
+        }
+        // 超时 告诉所有用户 聊天室中有多少人
+        else if (numEvents == 0)
+        {
+            for (int i = 0; i < eventsSize; i++)
+            {
+                noticeNumber(events[i].data.fd);
+            }
+        }
         for (int i = 0; i < numEvents; ++i)
         {
             if (events[i].data.fd == serverSocket)
@@ -108,6 +121,7 @@ void Server::handleNewConnection()
     // 添加客户端套接字到列表
     std::lock_guard<std::mutex> lock(clientsMutex);
     clients.push_back(clientSocket);
+    personNumber++;
     LOG_INFO("New client connected: " + std::to_string(clientSocket));
 }
 
@@ -140,6 +154,17 @@ void Server::handleClientMessage(int clientSocket)
     LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
 
     // 创建任务并提交到线程池
-    Task *task = new broadcastTask(message,clientSocket,clients); // 示例任务
+    Task *task = new broadcastTask(message, clientSocket, clients); // 示例任务
+    threadPool.submit(task);
+}
+void Server::noticeNumber(int clientSocket)
+{
+
+    // 处理客户端消息
+    std::string message = std::string("该服务器中还有") + std::to_string(personNumber) + std::string("人。");
+    LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
+
+    // 创建任务并提交到线程池
+    Task *task = new broadcastTask(message, clientSocket, clients); // 示例任务
     threadPool.submit(task);
 }
