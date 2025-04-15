@@ -74,10 +74,8 @@ void Server::start()
         // 超时 告诉所有用户 聊天室中有多少人
         else if (numEvents == 0)
         {
-            for(int i = 0 ; i < clients.size() ; i++)
-            {
-                noticeNumber(clients[i]);
-            }
+
+            noticeNumber();
             continue;
         }
         for (int i = 0; i < numEvents; ++i)
@@ -155,16 +153,16 @@ void Server::handleClientMessage(int clientSocket)
     LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
 
     // 创建任务并提交到线程池
-    Task *task = new broadcastTask(message, clientSocket, clients); // 示例任务
+    Task *task = new broadcastTask(message, clientSocket, clients); // 广播任务
     threadPool.submit(task);
 }
-void Server::noticeNumber(int clientSocket)
+void Server::noticeNumber()
 {
 
     // 处理客户端消息
     std::string message = std::string("该服务器中还有") + std::to_string(personNumber) + std::string("人。");
 
     // 创建任务并提交到线程池
-    Task *task = new broadcastTask(message, clientSocket, clients); // 示例任务
+    Task *task = new noticeTask(message, clients); // 示例任务
     threadPool.submit(task);
 }
