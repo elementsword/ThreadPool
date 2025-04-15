@@ -13,6 +13,7 @@
 #include "../task/task.h"
 #include "../task/calculateTask.h"
 #include "../task/broadcastTask.h"
+#include "../task/noticeTask.h"
 #include "../threadpool/threadpool.h"
 #define eventsSize 1024
 class Server {
@@ -34,7 +35,7 @@ private:
     void handleNewConnection();        // 处理新连接
     void handleClientMessage(int clientSocket); // 处理客户端消息
     void removeClient(int clientSocket);       // 移除客户端
-    void noticeNumber(int clientSocket);        // 通知服务器上有多少人
+    void noticeNumber();        // 通知服务器上有多少人
 };
 
 #endif
