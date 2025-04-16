@@ -65,14 +65,7 @@ void Client::connectToServer()
         {
             if (events[i].data.fd == clientSocket)
             {
-                std::string message = receiveMessage();
-                if (message.empty())
-                {
-                    std::cout << "Server closed connection." << std::endl;
-                    closeConnection();
-                    return;
-                }
-                std::cout << "Received message: " << message << std::endl;
+                receiveMessage();
             }
             else if (events[i].data.fd == STDIN_FILENO)
             {
@@ -89,11 +82,15 @@ void Client::connectToServer()
         }
     }
 }
-// 发送消息
+
+// 发送文字消息
 void Client::sendMessage(const std::string &message)
 {
     // 发送消息
-    ssize_t bytesSent = send(clientSocket, message.c_str(), message.size(), 0);
+    json j = JsonHelper::make_text_msg("Tom", message);
+    std::string data = j.dump();
+    size_t len = data.size();
+    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
     if (bytesSent < 0)
     {
         handleError("send failed");
@@ -101,19 +98,33 @@ void Client::sendMessage(const std::string &message)
     }
     std::cout << "Sent message: " << message << std::endl;
 }
+
 // 接收消息
-std::string Client::receiveMessage()
+void Client::receiveMessage()
 {
     char buffer[1024] = {0};
-    // 接受消息
-    ssize_t bytesReceive = recv(clientSocket, buffer, sizeof(buffer), 0);
-    if (bytesReceive < 0)
+    ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+    json j = JsonHelper::from_buffer(buffer,sizeof(buffer));
+    std::string type = j["type"];
+    if (type == "login")
     {
-        handleError("send failed");
-        return "";
     }
-
-    return std::string(buffer, bytesReceive);
+    else if (type == "text_message")
+    {
+        std::cout << j["content"] << std::endl;
+    }
+    else if (type == "image_message")
+    {
+        std::cout << "" << std::endl;
+    }
+    else if (type == "exit")
+    {
+        closeConnection();
+    }
+    else
+    {
+        std::cerr << "未知类型: " << type << std::endl;
+    }
 }
 // 关闭连接
 void Client::closeConnection()
@@ -123,6 +134,7 @@ void Client::closeConnection()
         close(clientSocket); // 关闭 socket
         std::cout << "Socket closed successfully." << std::endl;
         clientSocket = -1; // 将 socket 置为无效值，防止多次关闭
+        isConnected = false;
     }
 }
 // 错误处理函数
@@ -136,12 +148,8 @@ void Client::handleError(const std::string &errorMessage)
 void Client::exitNormal()
 {
     std::string message("exit");
-    sendMessage(message);
-
-    while (receiveMessage() == "success")
-    {
-        std ::cout<<"1------------"<<std::endl;
-        closeConnection();
-        isConnected = false;
-    }
+    json j = JsonHelper::make_exit_msg("tom");
+    std::string data = j.dump();
+    size_t len = data.size();
+    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
 }
