@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <sys/epoll.h> 
 #include "../log/log.h" 
+#include "../json/jsonhelper.h"
 class Client
 {
 public:
@@ -28,7 +29,7 @@ private:
     int epollFd;                                   // epoll 文件描述符
     void exitNormal();      //优雅退出 
     void sendMessage(const std::string &message);   //发送信息
-    std::string receiveMessage();   // 接收消息
+    void receiveMessage();   // 接收消息
     void closeConnection();    // 关闭连接
     bool isConnected; //客户端是否连接
 };
