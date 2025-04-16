@@ -153,10 +153,10 @@ void Server::handleClientMessage(int clientSocket)
     std::string message(buffer, bytesRead);
     if (message == "exit")
     {
-        removeClient(clientSocket);
-        LOG_INFO("client" + std::to_string(clientSocket) + ": " + message);
         std::string i("success"); 
         send(clientSocket, i.c_str(), i.size(), 0);
+        removeClient(clientSocket);
+        LOG_INFO("client" + std::to_string(clientSocket) + ": " + message);
         return ;
     }
 

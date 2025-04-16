@@ -105,7 +105,7 @@ void Client::sendMessage(const std::string &message)
 std::string Client::receiveMessage()
 {
     char buffer[1024] = {0};
-    // 发送消息
+    // 接受消息
     ssize_t bytesReceive = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesReceive < 0)
     {
@@ -137,9 +137,10 @@ void Client::exitNormal()
 {
     std::string message("exit");
     sendMessage(message);
-    while (receiveMessage() == std::string("success"))
+
+    while (receiveMessage() == "success")
     {
-        std::cout<<"1"<<std::endl;
+        std ::cout<<"1------------"<<std::endl;
         closeConnection();
         isConnected = false;
     }
