@@ -17,12 +17,7 @@ public:
     ~Client();
     // 连接服务器
     void connectToServer();
-    // 发送消息
-    void sendMessage(const std::string &message);
-    // 接收消息
-    std::string receiveMessage();
-    // 关闭连接
-    void closeConnection();
+
 
 private:
     int clientSocket;                                  // 客户端套接字
@@ -31,5 +26,10 @@ private:
     struct sockaddr_in serverAddr;                     // 服务器地址结构体
     void handleError(const std::string &errorMessage); // 错误处理函数
     int epollFd;                                   // epoll 文件描述符
+    void exitNormal();      //优雅退出 
+    void sendMessage(const std::string &message);   //发送信息
+    std::string receiveMessage();   // 接收消息
+    void closeConnection();    // 关闭连接
+    bool isConnected; //客户端是否连接
 };
 #endif

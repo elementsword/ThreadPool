@@ -135,6 +135,7 @@ void Server::removeClient(int clientSocket)
         clients.erase(it);
         close(clientSocket);
         LOG_INFO("Client disconnected: " + std::to_string(clientSocket));
+        personNumber--;
     }
 }
 void Server::handleClientMessage(int clientSocket)
@@ -150,6 +151,15 @@ void Server::handleClientMessage(int clientSocket)
 
     // 处理客户端消息
     std::string message(buffer, bytesRead);
+    if (message == "exit")
+    {
+        removeClient(clientSocket);
+        LOG_INFO("client" + std::to_string(clientSocket) + ": " + message);
+        std::string i("success"); 
+        send(clientSocket, i.c_str(), i.size(), 0);
+        return ;
+    }
+
     LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
 
     // 创建任务并提交到线程池

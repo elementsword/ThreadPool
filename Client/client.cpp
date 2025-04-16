@@ -1,7 +1,7 @@
 #include "client.h"
 
 // 构造
-Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port)
+Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false)
 {
     // 创建套接字
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -32,6 +32,7 @@ void Client::connectToServer()
         handleError("connect failed");
         return;
     }
+    isConnected = true;
     std::cout << "Connected to server: " << serverIp << ":" << port << std::endl;
     epollFd = epoll_create1(0);
     if (epollFd < 0)
@@ -41,7 +42,7 @@ void Client::connectToServer()
     }
     struct epoll_event event;
     event.events = EPOLLIN;
-    event.data.fd = clientSocket; //监听客户端套接字
+    event.data.fd = clientSocket; // 监听客户端套接字
     if (epoll_ctl(epollFd, EPOLL_CTL_ADD, clientSocket, &event) < 0)
     {
         handleError("epoll_ctl clientSocket failed");
@@ -55,7 +56,7 @@ void Client::connectToServer()
     }
     std::cout << "epoll_ctl clientSocket and STDIN_FILENO success" << std::endl;
 
-    while (true)
+    while (isConnected)
     {
         struct epoll_event events[2];
         // 等待事件发生 拷贝
@@ -77,11 +78,16 @@ void Client::connectToServer()
             {
                 std::string message;
                 std::getline(std::cin, message);
+                // 安全退出
+                if (message == "exit")
+                {
+                    exitNormal();
+                    continue;
+                }
                 sendMessage(message);
             }
         }
     }
-    
 }
 // 发送消息
 void Client::sendMessage(const std::string &message)
@@ -107,7 +113,7 @@ std::string Client::receiveMessage()
         return "";
     }
 
-    return std::string(buffer, sizeof(buffer));
+    return std::string(buffer, bytesReceive);
 }
 // 关闭连接
 void Client::closeConnection()
@@ -123,6 +129,18 @@ void Client::closeConnection()
 void Client::handleError(const std::string &errorMessage)
 {
     LOG_ERROR(errorMessage); // 记录错误日志
-    closeConnection(); // 关闭连接
-    exit(EXIT_FAILURE); // 退出程序
-} 
+    closeConnection();       // 关闭连接
+    exit(EXIT_FAILURE);      // 退出程序
+}
+// 优雅退出
+void Client::exitNormal()
+{
+    std::string message("exit");
+    sendMessage(message);
+    while (receiveMessage() == std::string("success"))
+    {
+        std::cout<<"1"<<std::endl;
+        closeConnection();
+        isConnected = false;
+    }
+}
