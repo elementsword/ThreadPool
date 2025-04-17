@@ -15,6 +15,7 @@
 #include "../task/broadcastTask.h"
 #include "../task/noticeTask.h"
 #include "../threadpool/threadpool.h"
+#include "../json/jsonhelper.h"
 #define eventsSize 1024
 class Server {
 public:

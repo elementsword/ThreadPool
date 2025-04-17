@@ -1,25 +1,24 @@
 #include "broadcastTask.h"
 
 // 构造函数
-broadcastTask::broadcastTask(std::string message, int clientFd, std::vector<int> clients):
-    message(message), clientFd(clientFd), clients(clients)
+broadcastTask::broadcastTask(json j, int clientFd, std::vector<int> clients) : j(j), clientFd(clientFd), clients(clients)
 {
-
 }
 
 // 析构函数
-broadcastTask::~broadcastTask(){
-
+broadcastTask::~broadcastTask()
+{
 }
 
 void broadcastTask::execute()
 {
-    for(int i:clients)
+    std::string str = j.dump();
+    for (int i : clients)
     {
         // 发送消息给其他客户端
-        if(i != clientFd)
+        if (i != clientFd)
         {
-            send(i, message.c_str(), message.size(), 0);
+            send(i, str.c_str(), str.size(), 0);
         }
     }
 }

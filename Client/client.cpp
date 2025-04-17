@@ -87,7 +87,7 @@ void Client::connectToServer()
 void Client::sendMessage(const std::string &message)
 {
     // 发送消息
-    json j = JsonHelper::make_text_msg("Tom", message);
+    json j = JsonHelper::make_json("Tom", "text", message);
     std::string data = j.dump();
     size_t len = data.size();
     ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
@@ -104,14 +104,18 @@ void Client::receiveMessage()
 {
     char buffer[1024] = {0};
     ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
-    json j = JsonHelper::from_buffer(buffer,sizeof(buffer));
+    json j = JsonHelper::from_buffer(buffer, bytesReceived);
     std::string type = j["type"];
     if (type == "login")
     {
     }
-    else if (type == "text_message")
+    else if (type == "text")
     {
-        std::cout << j["content"] << std::endl;
+        std::cout << j["msg"] << std::endl;
+    }
+    else if (type == "notice")
+    {
+        std::cout << j["msg"] << std::endl;
     }
     else if (type == "image_message")
     {
@@ -144,12 +148,12 @@ void Client::handleError(const std::string &errorMessage)
     closeConnection();       // 关闭连接
     exit(EXIT_FAILURE);      // 退出程序
 }
-// 优雅退出
+// 优雅退出 真实退出自然不在这
 void Client::exitNormal()
 {
     std::string message("exit");
-    json j = JsonHelper::make_exit_msg("tom");
+    json j = JsonHelper::make_json("tom", "exit");
     std::string data = j.dump();
     size_t len = data.size();
-    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
+    send(clientSocket, data.c_str(), len, 0);
 }

@@ -3,13 +3,11 @@
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-class JsonHelper{
-    public:
-    static json make_login(const std::string& user, const std::string& password);
-    static json make_text_msg(const std::string& sender,const std::string& message);
-    static json from_buffer(const char* buffer, size_t length);
-    static json make_exit_msg(const std::string& sender);
-    static std::string get_type(const json& j);
-    static std::string get_sender(const json& j);
+class JsonHelper
+{
+public:
+    static json from_buffer(const char *buffer, size_t length);
+    static json make_json(const std::string &sender, const std::string &option, const std::string &msg = "");
+    static std::string get_X(const json &j, const std::string &X);
 };
 #endif // __JSON_H__
