@@ -138,9 +138,10 @@ void Server::removeClient(int clientSocket)
         personNumber--;
     }
 }
+
 void Server::handleClientMessage(int clientSocket)
 {
-    char buffer[1024];
+    char buffer[1024] = {0};
     ssize_t bytesRead = read(clientSocket, buffer, sizeof(buffer));
     if (bytesRead <= 0)
     {
@@ -149,29 +150,30 @@ void Server::handleClientMessage(int clientSocket)
         return;
     }
 
-    // 处理客户端消息
-    std::string message(buffer, bytesRead);
-    if (message == "exit")
+    json j = JsonHelper::from_buffer(buffer, bytesRead);
+
+    if (JsonHelper::get_X(j, "type") == "exit")
     {
-        std::string i("success"); 
+        std::cout << "1" << std::endl;
+        std::string i = JsonHelper::make_json("server", "exit").dump();
         send(clientSocket, i.c_str(), i.size(), 0);
         removeClient(clientSocket);
-        LOG_INFO("client" + std::to_string(clientSocket) + ": " + message);
-        return ;
+        LOG_INFO("client" + JsonHelper::get_X(j, "from") + ": exit");
+        return;
     }
 
-    LOG_INFO("Received message from client " + std::to_string(clientSocket) + ": " + message);
+    LOG_INFO("Received message from client " + std::to_string(clientSocket));
 
     // 创建任务并提交到线程池
-    Task *task = new broadcastTask(message, clientSocket, clients); // 广播任务
+    Task *task = new broadcastTask(j, clientSocket, clients); // 广播任务
     threadPool.submit(task);
 }
+
 void Server::noticeNumber()
 {
 
     // 处理客户端消息
     std::string message = std::string("该服务器中还有") + std::to_string(personNumber) + std::string("人。");
-
     // 创建任务并提交到线程池
     Task *task = new noticeTask(message, clients); // 示例任务
     threadPool.submit(task);

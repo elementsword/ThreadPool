@@ -3,7 +3,7 @@
 #define TASK_H
 
 #include <iostream>
-
+#include "../json/jsonhelper.h"
 // 抽象基类 Task
 class Task {
 public:
