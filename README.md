@@ -21,3 +21,6 @@
 
 ### 基础使用
 
+nlohmann/json 安装 
+log4cpp安装 
+mysql 安装()
