@@ -18,12 +18,7 @@ public:
     // 获取单例实例（线程安全懒汉式）
     static Log* getInstance();
 
-    // 初始化日志系统（仅允许调用一次）
-    void initialize(
-        const std::string& filename = "default.log",
-        log4cpp::Priority::Value level = log4cpp::Priority::DEBUG,
-        bool consoleOutput = false,
-        const std::string& pattern = "%d [%p] %m%n");
+
 
     // 日志记录接口
     void log(log4cpp::Priority::Value level, const std::string& message);
@@ -41,7 +36,13 @@ public:
 private:
     Log();
     ~Log();
-
+    
+    // 初始化日志系统（仅允许调用一次）
+    void initialize(
+        const std::string& filename = "default.log",
+        log4cpp::Priority::Value level = log4cpp::Priority::DEBUG,
+        bool consoleOutput = false,
+        const std::string& pattern = "%d [%p] %m%n");
     log4cpp::Category& root;
     // 静态成员变量
     static Log* _instance;
