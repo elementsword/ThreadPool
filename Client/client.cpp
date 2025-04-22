@@ -111,7 +111,7 @@ void Client::receiveMessage()
     }
     else if (type == "text")
     {
-        std::cout << j["msg"] << std::endl;
+        std::cout << j["from"] << "：" << j["msg"] << std::endl;
     }
     else if (type == "notice")
     {
