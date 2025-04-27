@@ -36,6 +36,14 @@ Server::Server(int port, int threadPoolSize)
         exit(EXIT_FAILURE);
     }
 
+    // 创建 eventfd
+    eventFd = eventfd(0, EFD_NONBLOCK);
+    if (eventFd == -1)
+    {
+        LOG_ERROR("eventfd failed");
+        exit(EXIT_FAILURE);
+    }
+
     // 创建 epoll 实例
     epollFd = epoll_create1(0);
 }
@@ -44,6 +52,7 @@ Server::~Server()
 {
     close(serverSocket);
     close(epollFd);
+    close(eventFd);
 }
 
 void Server::start()
@@ -58,7 +67,13 @@ void Server::start()
         close(serverSocket);
         exit(EXIT_FAILURE);
     }
-
+    event.data.fd = eventFd;
+    if (epoll_ctl(epollFd, EPOLL_CTL_ADD, serverSocket, &event) < 0)
+    {
+        LOG_ERROR("epoll_ctl failed");
+        close(serverSocket);
+        exit(EXIT_FAILURE);
+    }
     LOG_INFO("Server started on port " + std::to_string(port));
     personNumber = 0;
     while (true)
@@ -83,6 +98,10 @@ void Server::start()
             if (events[i].data.fd == serverSocket)
             {
                 handleNewConnection();
+            }
+            else if (events[i].data.fd == eventFd)
+            {
+                removeClient();
             }
             else
             {
@@ -124,24 +143,26 @@ void Server::handleNewConnection()
     LOG_INFO("New client connected: " + std::to_string(clientSocket));
 }
 
-void Server::removeClient(int clientSocket)
+void Server::removeClient()
 {
-    // 从 epoll 实例中删除客户端套接字
-    epoll_ctl(epollFd, EPOLL_CTL_DEL, clientSocket, nullptr);
-    std::lock_guard<std::mutex> lock(clientsMutex);
-    std::vector<int>::iterator it = std::find(clients.begin(), clients.end(), clientSocket);
-    if (it != clients.end())
+    for (int fd : closeFd)
     {
-        clients.erase(it);
-        close(clientSocket);
-        LOG_INFO("Client disconnected: " + std::to_string(clientSocket));
-        personNumber--;
+        epoll_ctl(epollFd, EPOLL_CTL_DEL, fd, nullptr);
+        std::lock_guard<std::mutex> lock(clientsMutex);
+        std::vector<int>::iterator it = std::find(clients.begin(), clients.end(), fd);
+        if (it != clients.end())
+        {
+            clients.erase(it);
+            close(fd);
+            LOG_INFO("Client disconnected: " + std::to_string(fd));
+            personNumber--;
+        }
     }
 }
 
 void Server::handleClientMessage(int clientSocket)
 {
-    Task *task = new handleClientMessageTask(clientSocket, clients, sqlPool,epollFd);
+    Task *task = new handleClientMessageTask(clientSocket, clients, sqlPool, epollFd);
     threadPool.submit(task);
 }
 

@@ -103,12 +103,22 @@ void Client::sendMessage(const json &j)
 void Client::receiveMessage()
 {
     char buffer[1024] = {0};
-    std::cout << "1" << std::endl;
     ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
     json j = JsonHelper::from_buffer(buffer, bytesReceived);
+    std::cout << j << std::endl;
     std::string type = j["type"];
     if (type == "login")
     {
+        if (j["msg"] == "true")
+        {
+            isLogin = true;
+            std::cout << "1" << std::endl;
+        }
+        else if (j["msg"] == "false")
+        {
+            isLogin = false;
+            std::cout << "2" << std::endl;
+        }
     }
     else if (type == "text")
     {
@@ -121,19 +131,6 @@ void Client::receiveMessage()
     else if (type == "image_message")
     {
         std::cout << "" << std::endl;
-    }
-    else if (type == "login")
-    {
-        if (j["msg"] == "true")
-        {
-            isLogin = true;
-            std::cout << "1" << std::endl;
-        }
-        else if (j["msg"] == "false")
-        {
-            isLogin = false;
-            std::cout << "2" << std::endl;
-        }
     }
     else if (type == "exit")
     {
