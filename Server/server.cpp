@@ -1,7 +1,7 @@
 #include "server.h"
 
 Server::Server(int port, int threadPoolSize)
-    : port(port), threadPool(threadPoolSize)
+    : port(port), threadPool(threadPoolSize), sqlPool(mysqlPool::getInstance())
 {
     // 创建监听套接字
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -108,7 +108,7 @@ void Server::handleNewConnection()
     // 将客户端套接字添加到 epoll 实例
     struct epoll_event event;
     // 监听文件描述符的可读事件
-    event.events = EPOLLIN;
+    event.events = EPOLLIN | EPOLLONESHOT;
     event.data.fd = clientSocket;
     if (epoll_ctl(epollFd, EPOLL_CTL_ADD, clientSocket, &event) < 0)
     {
@@ -141,40 +141,13 @@ void Server::removeClient(int clientSocket)
 
 void Server::handleClientMessage(int clientSocket)
 {
-    char buffer[1024] = {0};
-    ssize_t bytesRead = read(clientSocket, buffer, sizeof(buffer));
-    if (bytesRead <= 0)
-    {
-        LOG_ERROR("read failed");
-        removeClient(clientSocket);
-        return;
-    }
-
-    json j = JsonHelper::from_buffer(buffer, bytesRead);
-
-    if (JsonHelper::get_X(j, "type") == "exit")
-    {
-        std::cout << "1" << std::endl;
-        std::string i = JsonHelper::make_json("server", "exit").dump();
-        send(clientSocket, i.c_str(), i.size(), 0);
-        removeClient(clientSocket);
-        LOG_INFO("client" + JsonHelper::get_X(j, "from") + ": exit");
-        return;
-    }
-
-    LOG_INFO("Received message from client " + std::to_string(clientSocket));
-
-    // 创建任务并提交到线程池
-    Task *task = new broadcastTask(j, clientSocket, clients); // 广播任务
+    Task *task = new handleClientMessageTask(clientSocket, clients, sqlPool,epollFd);
     threadPool.submit(task);
 }
 
 void Server::noticeNumber()
 {
-
-    // 处理客户端消息
-    std::string message = std::string("该服务器中还有") + std::to_string(personNumber) + std::string("人。");
     // 创建任务并提交到线程池
-    Task *task = new noticeTask(message, clients); // 示例任务
+    Task *task = new noticeTask(personNumber, clients); // 示例任务
     threadPool.submit(task);
 }
