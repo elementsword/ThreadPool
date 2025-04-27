@@ -8,6 +8,7 @@
 #include <mysql_connection.h>
 #include <memory>
 #include <condition_variable>
+#include <cppconn/prepared_statement.h>
 
 class mysqlPool
 {

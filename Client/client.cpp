@@ -1,7 +1,7 @@
 #include "client.h"
 
 // 构造
-Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false)
+Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false), isLogin(false)
 {
     // 创建套接字
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -34,6 +34,8 @@ void Client::connectToServer()
     }
     isConnected = true;
     std::cout << "Connected to server: " << serverIp << ":" << port << std::endl;
+    // 先登录 再进行监听操作
+    login();
     epollFd = epoll_create1(0);
     if (epollFd < 0)
     {
@@ -55,7 +57,6 @@ void Client::connectToServer()
         return;
     }
     std::cout << "epoll_ctl clientSocket and STDIN_FILENO success" << std::endl;
-
     while (isConnected)
     {
         struct epoll_event events[2];
@@ -84,10 +85,9 @@ void Client::connectToServer()
 }
 
 // 发送文字消息
-void Client::sendMessage(const std::string &message)
+void Client::sendMessage(const json &j)
 {
     // 发送消息
-    json j = JsonHelper::make_json("Tom", "text", message);
     std::string data = j.dump();
     size_t len = data.size();
     ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
@@ -96,13 +96,14 @@ void Client::sendMessage(const std::string &message)
         handleError("send failed");
         return;
     }
-    std::cout << "Sent message: " << message << std::endl;
+    LOG_INFO("Sent message: " + data);
 }
 
 // 接收消息
 void Client::receiveMessage()
 {
     char buffer[1024] = {0};
+    std::cout << "1" << std::endl;
     ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
     json j = JsonHelper::from_buffer(buffer, bytesReceived);
     std::string type = j["type"];
@@ -120,6 +121,19 @@ void Client::receiveMessage()
     else if (type == "image_message")
     {
         std::cout << "" << std::endl;
+    }
+    else if (type == "login")
+    {
+        if (j["msg"] == "true")
+        {
+            isLogin = true;
+            std::cout << "1" << std::endl;
+        }
+        else if (j["msg"] == "false")
+        {
+            isLogin = false;
+            std::cout << "2" << std::endl;
+        }
     }
     else if (type == "exit")
     {
@@ -156,4 +170,20 @@ void Client::exitNormal()
     std::string data = j.dump();
     size_t len = data.size();
     send(clientSocket, data.c_str(), len, 0);
+}
+
+void Client ::login()
+{
+    while (!isLogin)
+    {
+        // 获取用户输入的用户名和密码
+        std::cout << "Enter username: ";
+        std::getline(std::cin, username);
+        std::cout << "Enter password: ";
+        std::getline(std::cin, password);
+        // 发送消息
+        json j = JsonHelper::make_json("login", username, password);
+        sendMessage(j);
+        receiveMessage();
+    }
 }

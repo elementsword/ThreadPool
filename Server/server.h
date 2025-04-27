@@ -16,6 +16,8 @@
 #include "../task/noticeTask.h"
 #include "../threadpool/threadpool.h"
 #include "../json/jsonhelper.h"
+#include "../mysqlPool/mysqlPool.h"
+#include "../task/handleClientMessageTask.h"
 #define eventsSize 1024
 class Server {
 public:
@@ -33,6 +35,7 @@ private:
     ThreadPool threadPool;             // 线程池
     std::mutex clientsMutex;           // 保护客户端列表的锁
     std::vector<int> clients;          // 客户端套接字列表
+    mysqlPool * sqlPool;             // 数据库连接池对象 
     void handleNewConnection();        // 处理新连接
     void handleClientMessage(int clientSocket); // 处理客户端消息
     void removeClient(int clientSocket);       // 移除客户端

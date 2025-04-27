@@ -9,8 +9,8 @@ TARGET = app
 
 # 源文件和头文件路径
 ClientSRCDIR = mainClient Client log json
-ServerSRCDIR = mainServer log task threadpool Server json
-INCLUDE = -Ilog
+ServerSRCDIR = mainServer log task threadpool Server json mysqlPool
+INCLUDE = -Ilog 
 
 # 找到所有源文件
 CLIENT_SRC = $(foreach dir, $(ClientSRCDIR), $(wildcard $(dir)/*.cpp))
@@ -20,8 +20,8 @@ SERVER_SRC = $(foreach dir, $(ServerSRCDIR), $(wildcard $(dir)/*.cpp))
 CLIENT_OBJ = $(CLIENT_SRC:.cpp=.o)
 SERVER_OBJ = $(SERVER_SRC:.cpp=.o)
 
-# 依赖 log4cpp
-LIBS = -llog4cpp
+# 依赖 log4cpp mysql
+LIBS = -llog4cpp -lmysqlcppconn
 
 # 目标可执行文件
 CLIENT_TARGET = client

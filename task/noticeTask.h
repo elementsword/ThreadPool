@@ -7,7 +7,7 @@ class noticeTask : public Task
 {
 public:
     // 构造函数
-    noticeTask(std::string message,std::vector<int> clients);
+    noticeTask(int n,std::vector<int> clients);
 
     // 析构函数
     ~noticeTask();
@@ -15,7 +15,7 @@ public:
     void execute();
 
 private:
-    std::string message; // 消息
+    int number; // 消息
     std::vector<int> clients; // 客户端列表
 };
 #endif // __BROADCASTTASK_H__
