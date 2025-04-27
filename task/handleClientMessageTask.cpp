@@ -58,7 +58,6 @@ void handleClientMessageTask::execute()
         {
             LOG_INFO("Login failed: wrong username or password.");
             std::string i = JsonHelper::make_json("login", "server","false").dump();
-            
             send(clientSocket, i.c_str(), i.size(), 0);
         }
     }
