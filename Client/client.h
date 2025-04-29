@@ -33,7 +33,7 @@ private:
     void sendMessage(const json &message);              //发送信息
     void receiveMessage();                              // 接收消息
     void closeConnection();                             // 关闭连接
-    void login();
+    bool login();
 
 };
 #endif
