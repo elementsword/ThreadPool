@@ -11,7 +11,7 @@ class handleClientMessageTask : public Task
 {
 public:
     // 构造函数
-    handleClientMessageTask(int clientSocket,std::vector<int> clients,mysqlPool *sqlPool,int epollFd, std::mutex eventMutex,std::vector<int> closeFd);
+    handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd,int eventFd,std::shared_ptr<std::mutex> clientsMutex,const std::unordered_map<int, std::string> &clients,std::shared_ptr<std::mutex> brokenClientsMutex,std::queue<int> &brokenClients);
 
     // 析构函数
     ~handleClientMessageTask();
@@ -19,11 +19,14 @@ public:
     void execute();
 
 private:
-    int clientSocket; // socket对象 
-    std::vector<int> clients; // 客户端列表
-    mysqlPool *sqlPool;   //数据库连接池
-    int epollFd; //文件描述符
-    std::mutex eventMutex;//eventFd锁
-    std::vector<int> closeFd
+    int clientSocket;         // socket对象
+    mysqlPool *sqlPool;       // 数据库连接池
+    int epollFd;              // 文件描述符
+    int eventFd;              //事件fd 
+    std::shared_ptr<std::mutex> clientsMutex ; //要删除的客户端的锁
+    std::unordered_map<int, std::string> clients; // 客户端列表
+    std::shared_ptr<std::mutex> brokenClientsMutex;         // 保护queue队列
+    std::queue<int> brokenClients;          //断开的队列
+    void notifyClientExit(int clientSocket,std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int>& brokenClients, int eventFd);
 };
-#endif //__HANDLECLIENTMESSAGETASK_H__ 
+#endif //__HANDLECLIENTMESSAGETASK_H__

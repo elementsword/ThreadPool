@@ -35,7 +35,9 @@ void Client::connectToServer()
     isConnected = true;
     std::cout << "Connected to server: " << serverIp << ":" << port << std::endl;
     // 先登录 再进行监听操作
-    login();
+    while (!login())
+    {
+    }
     epollFd = epoll_create1(0);
     if (epollFd < 0)
     {
@@ -99,7 +101,7 @@ void Client::sendMessage(const json &j)
     LOG_INFO("Sent message: " + data);
 }
 
-// 接收消息
+// 接收消息 登录成功之后的
 void Client::receiveMessage()
 {
     char buffer[1024] = {0};
@@ -107,20 +109,7 @@ void Client::receiveMessage()
     json j = JsonHelper::from_buffer(buffer, bytesReceived);
     std::cout << j << std::endl;
     std::string type = j["type"];
-    if (type == "login")
-    {
-        if (j["msg"] == "true")
-        {
-            isLogin = true;
-            std::cout << "1" << std::endl;
-        }
-        else if (j["msg"] == "false")
-        {
-            isLogin = false;
-            std::cout << "2" << std::endl;
-        }
-    }
-    else if (type == "text")
+    if (type == "text")
     {
         std::cout << j["from"] << "：" << j["msg"] << std::endl;
     }
@@ -169,18 +158,32 @@ void Client::exitNormal()
     send(clientSocket, data.c_str(), len, 0);
 }
 
-void Client ::login()
+bool Client ::login()
 {
-    while (!isLogin)
+
+    // 获取用户输入的用户名和密码
+    std::cout << "Enter username: ";
+    std::getline(std::cin, username);
+    std::cout << "Enter password: ";
+    std::getline(std::cin, password);
+    // 发送消息
+    json j = JsonHelper::make_json("login", username, password);
+    sendMessage(j);
+    char buffer[1024] = {0};
+    ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+    j = JsonHelper::from_buffer(buffer, bytesReceived);
+    std::cout << j << std::endl;
+    std::string type = j["type"];
+    if (type == "login")
     {
-        // 获取用户输入的用户名和密码
-        std::cout << "Enter username: ";
-        std::getline(std::cin, username);
-        std::cout << "Enter password: ";
-        std::getline(std::cin, password);
-        // 发送消息
-        json j = JsonHelper::make_json("login", username, password);
-        sendMessage(j);
-        receiveMessage();
+        if (j["msg"] == "true")
+        {
+            return true;
+        }
+        else if (j["msg"] == "false")
+        {
+            return false;
+        }
     }
+    return false;
 }
