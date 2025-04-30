@@ -34,10 +34,7 @@ void Client::connectToServer()
     }
     isConnected = true;
     std::cout << "Connected to server: " << serverIp << ":" << port << std::endl;
-    // 先登录 再进行监听操作
-    while (!login())
-    {
-    }
+    ui();
     epollFd = epoll_create1(0);
     if (epollFd < 0)
     {
@@ -186,4 +183,75 @@ bool Client ::login()
         }
     }
     return false;
+}
+
+void Client ::registerAccount()
+{
+
+    // 获取用户输入的用户名和密码
+    std::cout << "Enter username: ";
+    std::getline(std::cin, username);
+    std::cout << "Enter password: ";
+    std::getline(std::cin, password);
+    // 发送消息
+    json j = JsonHelper::make_json("register", username, password);
+    sendMessage(j);
+    char buffer[1024] = {0};
+    ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+    j = JsonHelper::from_buffer(buffer, bytesReceived);
+    std::cout << j << std::endl;
+    std::string type = j["type"];
+    if (type == "register")
+    {
+        if (j["msg"] == "true")
+        {
+            std::cout << "✅ Registration successful. Please login." << std::endl;
+        }
+        else if (j["msg"] == "false")
+        {
+            std::cout << "❌ Registration failed: " << std::endl;
+        }
+    }
+}
+
+void Client::ui()
+{
+    while (true)
+    {
+        std::cout << "======================" << std::endl;
+        std::cout << " 1. Login" << std::endl;
+        std::cout << " 2. Register" << std::endl;
+        std::cout << " 3. Exit" << std::endl;
+        std::cout << "======================" << std::endl;
+        std::cout << "Select option: ";
+        
+        std::string choice;
+        std::getline(std::cin, choice);
+
+        if (choice == "1")
+        {
+            if (login())
+            {
+                std::cout << "✅ Login successful!" << std::endl;
+                break; // 登录成功，进入主循环
+            }
+            else
+            {
+                std::cout << "❌ Login failed. Try again.\n" << std::endl;
+            }
+        }
+        else if (choice == "2")
+        {
+            registerAccount();
+        }
+        else if (choice == "3")
+        {
+            std::cout << "👋 Exit. Goodbye!" << std::endl;
+            exit(0);
+        }
+        else
+        {
+            std::cout << "⚠️ Invalid option. Try again.\n" << std::endl;
+        }
+    }
 }
