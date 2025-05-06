@@ -7,6 +7,14 @@
 #include "../mysqlPool/mysqlPool.h"
 #include <sys/epoll.h>
 
+enum class MessageType {
+    EXIT,
+    LOGIN,
+    TEXT,
+    REGISTER,
+    UNKNOWN
+};
+
 class handleClientMessageTask : public Task
 {
 public:
@@ -28,5 +36,6 @@ private:
     std::shared_ptr<std::mutex> brokenClientsMutex;         // 保护queue队列
     std::queue<int> brokenClients;          //断开的队列
     void notifyClientExit(int clientSocket,std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int>& brokenClients, int eventFd);
+    MessageType stringToMessageType(const std::string& typeStr);       //str 转换 MessageType
 };
 #endif //__HANDLECLIENTMESSAGETASK_H__

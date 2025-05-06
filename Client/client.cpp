@@ -56,8 +56,10 @@ void Client::connectToServer()
         return;
     }
     std::cout << "epoll_ctl clientSocket and STDIN_FILENO success" << std::endl;
+    std::cout << "请输入信息：";
     while (isConnected)
     {
+        std::cout.flush();
         struct epoll_event events[2];
         // 等待事件发生 拷贝
         int numEvents = epoll_wait(epollFd, events, 2, -1);
@@ -70,7 +72,11 @@ void Client::connectToServer()
             else if (events[i].data.fd == STDIN_FILENO)
             {
                 std::string message;
-                std::getline(std::cin, message);
+                do
+                {
+                    std::getline(std::cin, message);
+                    std::cout << "请输入信息：";
+                } while (message.empty());
                 // 安全退出
                 if (message == "exit")
                 {
@@ -84,8 +90,9 @@ void Client::connectToServer()
 }
 
 // 发送文字消息
-void Client::sendMessage(const json &j)
+void Client::sendMessage(const std::string &message)
 {
+    json j = JsonHelper::make_json("text", username, message);
     // 发送消息
     std::string data = j.dump();
     size_t len = data.size();
@@ -108,7 +115,7 @@ void Client::receiveMessage()
     std::string type = j["type"];
     if (type == "text")
     {
-        std::cout << j["from"] << "：" << j["msg"] << std::endl;
+        std::cout << j["username"] << "：" << j["msg"] << std::endl;
     }
     else if (type == "notice")
     {
@@ -126,6 +133,7 @@ void Client::receiveMessage()
     {
         std::cerr << "未知类型: " << type << std::endl;
     }
+    std::cout << "请输入信息：";
 }
 // 关闭连接
 void Client::closeConnection()
@@ -165,7 +173,14 @@ bool Client ::login()
     std::getline(std::cin, password);
     // 发送消息
     json j = JsonHelper::make_json("login", username, password);
-    sendMessage(j);
+    std::string data = j.dump();
+    size_t len = data.size();
+    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
+    if (bytesSent < 0)
+    {
+        handleError("send failed");
+        return false;
+    }
     char buffer[1024] = {0};
     ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
     j = JsonHelper::from_buffer(buffer, bytesReceived);
@@ -175,10 +190,18 @@ bool Client ::login()
     {
         if (j["msg"] == "true")
         {
+            this->username = username;
+            std::cout << "✅ Login successful!" << std::endl;
             return true;
         }
         else if (j["msg"] == "false")
         {
+            std::cout << "❌ Login failed. Try again." << std::endl;
+            return false;
+        }
+        else if (j["msg"] == "exist")
+        {
+            std::cout << "❌ Already login. Please change user." << std::endl;
             return false;
         }
     }
@@ -187,7 +210,6 @@ bool Client ::login()
 
 void Client ::registerAccount()
 {
-
     // 获取用户输入的用户名和密码
     std::cout << "Enter username: ";
     std::getline(std::cin, username);
@@ -195,7 +217,14 @@ void Client ::registerAccount()
     std::getline(std::cin, password);
     // 发送消息
     json j = JsonHelper::make_json("register", username, password);
-    sendMessage(j);
+    std::string data = j.dump();
+    size_t len = data.size();
+    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
+    if (bytesSent < 0)
+    {
+        handleError("send failed");
+        return;
+    }
     char buffer[1024] = {0};
     ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
     j = JsonHelper::from_buffer(buffer, bytesReceived);
@@ -224,7 +253,7 @@ void Client::ui()
         std::cout << " 3. Exit" << std::endl;
         std::cout << "======================" << std::endl;
         std::cout << "Select option: ";
-        
+
         std::string choice;
         std::getline(std::cin, choice);
 
@@ -232,12 +261,7 @@ void Client::ui()
         {
             if (login())
             {
-                std::cout << "✅ Login successful!" << std::endl;
-                break; // 登录成功，进入主循环
-            }
-            else
-            {
-                std::cout << "❌ Login failed. Try again.\n" << std::endl;
+                break;
             }
         }
         else if (choice == "2")
@@ -247,11 +271,13 @@ void Client::ui()
         else if (choice == "3")
         {
             std::cout << "👋 Exit. Goodbye!" << std::endl;
+            exitNormal();
             exit(0);
         }
         else
         {
-            std::cout << "⚠️ Invalid option. Try again.\n" << std::endl;
+            std::cout << "⚠️ Invalid option. Try again.\n"
+                      << std::endl;
         }
     }
 }

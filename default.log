@@ -1,0 +1,180 @@
+2025-05-06 14:10:10,438 [INFO] ThreadPool created with size: 4
+2025-05-06 14:10:10,651 [INFO] Server started on port 8080
+2025-05-06 14:10:28,289 [INFO] New client connected: 17
+2025-05-06 14:10:33,219 [INFO] Sent message: {"from":"hello","msg":"2","type":"login"}
+2025-05-06 14:10:33,245 [INFO] Login failed: wrong username or password.
+2025-05-06 14:10:37,572 [INFO] Sent message: {"from":"1","msg":"1","type":"register"}
+2025-05-06 14:10:39,200 [ERROR] read failed
+2025-05-06 14:10:39,200 [INFO] client: exit
+2025-05-06 14:38:19,980 [INFO] ThreadPool created with size: 4
+2025-05-06 14:38:20,034 [INFO] Server started on port 8080
+2025-05-06 14:38:23,388 [INFO] New client connected: 17
+2025-05-06 14:38:29,148 [ERROR] read failed
+2025-05-06 14:38:29,148 [INFO] client: exit
+2025-05-06 14:38:49,225 [INFO] New client connected: 18
+2025-05-06 14:41:00,721 [ERROR] read failed
+2025-05-06 14:41:00,721 [INFO] client: exit
+2025-05-06 14:41:45,321 [INFO] ThreadPool created with size: 4
+2025-05-06 14:41:45,372 [INFO] Server started on port 8080
+2025-05-06 14:41:48,888 [INFO] New client connected: 17
+2025-05-06 14:41:52,688 [INFO] Register success!
+2025-05-06 14:41:59,935 [INFO] Login success!
+2025-05-06 14:42:14,605 [WARN] Unknown message type received.
+2025-05-06 14:42:14,605 [INFO] Sent message: {"msg":"","type":"type","username":"liuyi"}
+2025-05-06 14:43:20,412 [INFO] New client connected: 18
+2025-05-06 14:43:24,991 [INFO] Login success!
+2025-05-06 14:43:26,239 [WARN] Unknown message type received.
+2025-05-06 14:43:26,239 [INFO] Sent message: {"msg":"l","type":"type","username":"liuyi"}
+2025-05-06 14:43:30,906 [ERROR] read failed
+2025-05-06 14:43:30,906 [INFO] client: exit
+2025-05-06 14:43:32,638 [ERROR] read failed
+2025-05-06 14:43:32,638 [INFO] client: exit
+2025-05-06 14:46:42,530 [INFO] ThreadPool created with size: 4
+2025-05-06 14:46:42,581 [INFO] Server started on port 8080
+2025-05-06 14:46:45,853 [INFO] New client connected: 17
+2025-05-06 14:46:50,223 [INFO] Login success!
+2025-05-06 14:46:52,152 [INFO] New client connected: 18
+2025-05-06 14:46:56,063 [INFO] Login success!
+2025-05-06 14:46:57,373 [WARN] Unknown message type received.
+2025-05-06 14:46:57,373 [INFO] Sent message: {"msg":"1","type":"type","username":"liuyi"}
+2025-05-06 14:49:28,109 [INFO] ThreadPool created with size: 4
+2025-05-06 14:49:28,160 [INFO] Server started on port 8080
+2025-05-06 14:49:29,942 [INFO] New client connected: 17
+2025-05-06 14:49:34,098 [INFO] Login success!
+2025-05-06 14:49:44,236 [INFO] New client connected: 18
+2025-05-06 14:49:48,562 [INFO] Login success!
+2025-05-06 14:49:49,169 [INFO] Received message from client 18
+2025-05-06 14:49:49,169 [INFO] Sent message: {"msg":"1","type":"text","username":"liuyi"}
+2025-05-06 14:49:53,920 [INFO] Received message from client 17
+2025-05-06 14:49:53,920 [INFO] Sent message: {"msg":"2","type":"text","username":"liuyi"}
+2025-05-06 14:49:55,699 [ERROR] read failed
+2025-05-06 14:49:55,699 [INFO] client: exit
+2025-05-06 14:49:56,646 [ERROR] read failed
+2025-05-06 14:49:56,647 [INFO] client: exit
+2025-05-06 15:09:17,104 [INFO] ThreadPool created with size: 4
+2025-05-06 15:09:17,158 [INFO] Server started on port 8080
+2025-05-06 15:09:21,080 [INFO] ThreadPool created with size: 4
+2025-05-06 15:09:21,130 [INFO] Server started on port 8080
+2025-05-06 15:09:26,449 [INFO] New client connected: 17
+2025-05-06 15:09:31,373 [INFO] Login success!
+2025-05-06 15:09:36,272 [INFO] New client connected: 18
+2025-05-06 15:09:40,406 [INFO] Login success!
+2025-05-06 15:11:30,049 [ERROR] read failed
+2025-05-06 15:11:30,049 [INFO] client: exit
+2025-05-06 15:12:02,381 [INFO] ThreadPool created with size: 4
+2025-05-06 15:12:02,430 [INFO] Server started on port 8080
+2025-05-06 15:12:05,699 [INFO] New client connected: 17
+2025-05-06 15:12:09,456 [INFO] Login success!
+2025-05-06 15:14:25,848 [ERROR] read failed
+2025-05-06 15:14:25,848 [INFO] client: exit
+2025-05-06 15:14:26,890 [INFO] New client connected: 18
+2025-05-06 15:14:31,032 [INFO] Login success!
+2025-05-06 15:15:48,337 [ERROR] read failed
+2025-05-06 15:15:48,337 [INFO] client: exit
+2025-05-06 15:16:04,928 [INFO] ThreadPool created with size: 4
+2025-05-06 15:16:04,978 [INFO] Server started on port 8080
+2025-05-06 15:16:13,240 [INFO] New client connected: 17
+2025-05-06 15:16:18,133 [INFO] Login success!
+2025-05-06 15:24:32,441 [ERROR] read failed
+2025-05-06 15:24:32,441 [INFO] client: exit
+2025-05-06 15:24:55,759 [INFO] New client connected: 18
+2025-05-06 15:25:00,397 [INFO] Login success!
+2025-05-06 15:25:30,270 [ERROR] read failed
+2025-05-06 15:25:30,270 [INFO] client: exit
+2025-05-06 15:26:01,232 [INFO] New client connected: 19
+2025-05-06 15:26:05,615 [INFO] Login success!
+2025-05-06 15:26:09,718 [INFO] Received message from client 19
+2025-05-06 15:26:09,718 [INFO] Sent message: {"msg":"liuyi","type":"text","username":"liuyi"}
+2025-05-06 15:27:53,193 [ERROR] read failed
+2025-05-06 15:27:53,193 [INFO] client: exit
+2025-05-06 15:28:07,083 [INFO] New client connected: 20
+2025-05-06 15:28:12,793 [INFO] Login success!
+2025-05-06 15:28:14,961 [INFO] Received message from client 20
+2025-05-06 15:28:14,961 [INFO] Sent message: {"msg":"a","type":"text","username":"liuyi"}
+2025-05-06 15:28:15,433 [INFO] Sent message: {"msg":"a","type":"text","username":"liuyi"}
+2025-05-06 15:28:15,433 [INFO] Received message from client 20
+2025-05-06 15:28:16,329 [INFO] Sent message: {"msg":"sda","type":"text","username":"liuyi"}
+2025-05-06 15:28:16,329 [INFO] Received message from client 20
+2025-05-06 15:28:17,168 [INFO] Sent message: {"msg":"dsada","type":"text","username":"liuyi"}
+2025-05-06 15:28:17,168 [INFO] Received message from client 20
+2025-05-06 15:28:18,289 [INFO] Sent message: {"msg":"liuyo","type":"text","username":"liuyi"}
+2025-05-06 15:28:18,289 [INFO] Received message from client 20
+2025-05-06 15:38:05,608 [INFO] Sent message: {"msg":"hello","type":"text","username":"liuyi"}
+2025-05-06 15:38:05,608 [INFO] Received message from client 20
+2025-05-06 15:38:09,114 [INFO] New client connected: 21
+2025-05-06 15:38:12,673 [INFO] Login success!
+2025-05-06 15:38:14,888 [INFO] Received message from client 21
+2025-05-06 15:38:14,888 [INFO] Sent message: {"msg":"hello","type":"text","username":"liuyi"}
+2025-05-06 15:38:17,880 [INFO] Sent message: {"msg":"hi","type":"text","username":"liuyi"}
+2025-05-06 15:38:17,880 [INFO] Received message from client 20
+2025-05-06 15:38:23,120 [INFO] Sent message: {"msg":"hi","type":"text","username":"liuyi"}
+2025-05-06 15:38:23,120 [INFO] Received message from client 20
+2025-05-06 15:44:36,948 [ERROR] read failed
+2025-05-06 15:44:36,948 [INFO] client: exit
+2025-05-06 15:44:54,069 [ERROR] read failed
+2025-05-06 15:44:54,069 [INFO] client: exit
+2025-05-06 15:44:56,855 [INFO] New client connected: 22
+2025-05-06 15:45:01,102 [INFO] Login success!
+2025-05-06 15:45:08,167 [INFO] New client connected: 23
+2025-05-06 15:45:11,925 [INFO] Login success!
+2025-05-06 15:45:13,389 [INFO] Received message from client 23
+2025-05-06 15:45:13,389 [INFO] Sent message: {"msg":"d","type":"text","username":"liuyi"}
+2025-05-06 15:45:17,437 [INFO] Received message from client 22
+2025-05-06 15:45:17,437 [INFO] Sent message: {"msg":"s","type":"text","username":"liuyi"}
+2025-05-06 15:47:23,599 [INFO] Sent message: {"msg":"hea","type":"text","username":"liuyi"}
+2025-05-06 15:47:23,599 [INFO] Received message from client 23
+2025-05-06 15:47:25,886 [INFO] Sent message: {"msg":"hello","type":"text","username":"liuyi"}
+2025-05-06 15:47:25,886 [INFO] Received message from client 23
+2025-05-06 15:47:48,967 [ERROR] read failed
+2025-05-06 15:47:48,967 [INFO] client: exit
+2025-05-06 15:47:51,031 [ERROR] read failed
+2025-05-06 15:47:51,031 [INFO] client: exit
+2025-05-06 16:01:45,630 [INFO] ThreadPool created with size: 4
+2025-05-06 16:01:45,683 [INFO] Server started on port 8080
+2025-05-06 16:01:48,622 [INFO] New client connected: 17
+2025-05-06 16:02:47,414 [INFO] ThreadPool created with size: 4
+2025-05-06 16:02:47,465 [INFO] Server started on port 8080
+2025-05-06 16:02:51,583 [INFO] New client connected: 17
+2025-05-06 16:02:54,872 [INFO] Login success!
+2025-05-06 16:03:23,131 [ERROR] read failed
+2025-05-06 16:03:23,131 [INFO] client: exit
+2025-05-06 16:05:13,556 [INFO] New client connected: 18
+2025-05-06 16:05:16,970 [INFO] Already Login!
+2025-05-06 16:05:28,805 [INFO] Register success!
+2025-05-06 16:05:35,079 [INFO] Login success!
+2025-05-06 16:05:37,202 [INFO] Received message from client 18
+2025-05-06 16:05:37,203 [INFO] Sent message: {"msg":"sda","type":"text","username":"zzz"}
+2025-05-06 16:05:37,649 [INFO] Sent message: {"msg":"sda","type":"text","username":"zzz"}
+2025-05-06 16:05:37,650 [INFO] Received message from client 18
+2025-05-06 16:05:40,581 [INFO] New client connected: 19
+2025-05-06 16:05:46,067 [INFO] Already Login!
+2025-05-06 16:05:53,667 [INFO] Login failed: wrong username or password.
+2025-05-06 16:06:08,055 [INFO] Register success!
+2025-05-06 16:06:13,678 [INFO] Login success!
+2025-05-06 16:06:16,235 [INFO] Received message from client 19
+2025-05-06 16:06:16,235 [INFO] Sent message: {"msg":"healo","type":"text","username":"zxc"}
+2025-05-06 16:06:27,595 [INFO] Sent message: {"msg":"dsa","type":"text","username":"zxc"}
+2025-05-06 16:06:27,595 [INFO] Received message from client 19
+2025-05-06 16:07:24,245 [INFO] ThreadPool created with size: 4
+2025-05-06 16:07:24,297 [INFO] Server started on port 8080
+2025-05-06 16:07:28,293 [INFO] Sent message: {"msg":"ads","type":"text","username":"zzz"}
+2025-05-06 16:07:30,218 [INFO] New client connected: 17
+2025-05-06 16:07:36,665 [INFO] Login failed: wrong username or password.
+2025-05-06 16:07:43,869 [INFO] Register success!
+2025-05-06 16:07:55,110 [INFO] Login success!
+2025-05-06 16:07:58,267 [INFO] New client connected: 18
+2025-05-06 16:08:02,057 [INFO] Login failed: wrong username or password.
+2025-05-06 16:08:03,436 [INFO] Register success!
+2025-05-06 16:08:06,436 [INFO] Login success!
+2025-05-06 16:08:07,256 [INFO] Received message from client 18
+2025-05-06 16:08:07,256 [INFO] Sent message: {"msg":"sa","type":"text","username":"s"}
+2025-05-06 16:08:16,127 [INFO] Received message from client 17
+2025-05-06 16:08:16,127 [INFO] Sent message: {"msg":"hello","type":"text","username":"das"}
+2025-05-06 16:08:20,520 [INFO] Sent message: {"msg":"oh","type":"text","username":"s"}
+2025-05-06 16:08:20,520 [INFO] Received message from client 18
+2025-05-06 16:08:24,632 [INFO] Sent message: {"msg":"nice","type":"text","username":"das"}
+2025-05-06 16:08:24,633 [INFO] Received message from client 17
+2025-05-06 16:08:26,540 [ERROR] read failed
+2025-05-06 16:08:26,541 [INFO] client: exit
+2025-05-06 16:08:27,575 [ERROR] read failed
+2025-05-06 16:08:27,575 [INFO] client: exit

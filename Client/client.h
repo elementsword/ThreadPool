@@ -30,7 +30,7 @@ private:
     std::string username,password;                     // 用户名 密码 
     void handleError(const std::string &errorMessage); // 错误处理函数
     void exitNormal();                                  //优雅退出 
-    void sendMessage(const json &message);              //发送信息
+    void sendMessage(const std::string &message);              //发送信息
     void receiveMessage();                              // 接收消息
     void closeConnection();                             // 关闭连接
     bool login();                                       // 登录
