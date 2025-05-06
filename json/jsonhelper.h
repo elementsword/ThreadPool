@@ -7,7 +7,7 @@ class JsonHelper
 {
 public:
     static json from_buffer(const char *buffer, size_t length);
-    static json make_json(const std::string &sender, const std::string &option, const std::string &msg = "");
+    static json make_json(const std::string &type, const std::string &username, const std::string &msg = "");
     static std::string get_X(const json &j, const std::string &X);
 };
 #endif // __JSON_H__

@@ -19,23 +19,25 @@ void handleClientMessageTask::execute()
     if (bytesRead <= 0)
     {
         LOG_ERROR("read failed");
-        notifyClientExit(clientSocket,brokenClientsMutex,brokenClients,eventFd);
+        notifyClientExit(clientSocket, brokenClientsMutex, brokenClients, eventFd);
         return;
     }
 
     json j = JsonHelper::from_buffer(buffer, bytesRead);
-
-    if (JsonHelper::get_X(j, "type") == "exit")
+    MessageType type = stringToMessageType(JsonHelper::get_X(j, "type"));
+    switch (type)
     {
-        std::string i = JsonHelper::make_json("exit", "server").dump();
-        send(clientSocket, i.c_str(), i.size(), 0);
-        notifyClientExit(clientSocket,brokenClientsMutex,brokenClients,eventFd);
+    case MessageType::EXIT:
+    {
+        std::string reply = JsonHelper::make_json("exit", "server").dump();
+        send(clientSocket, reply.c_str(), reply.size(), 0);
+        notifyClientExit(clientSocket, brokenClientsMutex, brokenClients, eventFd);
         return;
+        break;
     }
-
-    if (JsonHelper::get_X(j, "type") == "login")
+    case MessageType::LOGIN:
     {
-        std::string username = JsonHelper::get_X(j, "from");
+        std::string username = JsonHelper::get_X(j, "username");
         std::string password = JsonHelper::get_X(j, "msg");
 
         std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
@@ -50,20 +52,36 @@ void handleClientMessageTask::execute()
         // 判断有没有找到
         if (res->next())
         {
-            LOG_INFO("Login success!");
-            // 查到了，账号密码正确
-            std::string i = JsonHelper::make_json("login", "server", "true").dump();
-            send(clientSocket, i.c_str(), i.size(), 0);
+            // 密码正确，检查是否已登录
+            bool isLoggedIn = res->getBoolean("is_logged_in");
+            if (isLoggedIn)
+            {
+                LOG_INFO("Already Login!");
+                std::string reply = JsonHelper::make_json("login", "server", "exist").dump();
+                send(clientSocket, reply.c_str(), reply.size(), 0);
+            }
+            else
+            {
+                // 用户未登录，更新状态为登录
+                std::unique_ptr<sql::PreparedStatement> updatePstmt(
+                    conn->prepareStatement("UPDATE users SET is_logged_in=1 WHERE username=?"));
+                updatePstmt->setString(1, username);
+                updatePstmt->execute();
+                LOG_INFO("Login success!");
+                // 查到了，账号密码正确 并且未登录
+                std::string reply = JsonHelper::make_json("login", "server", "true").dump();
+                send(clientSocket, reply.c_str(), reply.size(), 0);
+            }
         }
         else
         {
             LOG_INFO("Login failed: wrong username or password.");
-            std::string i = JsonHelper::make_json("login", "server", "false").dump();
-            send(clientSocket, i.c_str(), i.size(), 0);
+            std::string reply = JsonHelper::make_json("login", "server", "false").dump();
+            send(clientSocket, reply.c_str(), reply.size(), 0);
         }
+        break;
     }
-
-    if (JsonHelper::get_X(j, "type") == "text")
+    case MessageType::TEXT:
     {
         LOG_INFO("Received message from client " + std::to_string(clientSocket));
 
@@ -76,7 +94,55 @@ void handleClientMessageTask::execute()
                 send(it.first, str.c_str(), str.size(), 0);
             }
         }
+        break;
     }
+    case MessageType::REGISTER:
+    {
+        std::string username = JsonHelper::get_X(j, "username");
+        std::string password = JsonHelper::get_X(j, "msg");
+
+        std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
+
+        // 1. 检查用户名是否已存在
+        std::unique_ptr<sql::PreparedStatement> checkStmt(
+            conn->prepareStatement("SELECT * FROM users WHERE username=?"));
+        checkStmt->setString(1, username);
+        std::unique_ptr<sql::ResultSet> res(checkStmt->executeQuery());
+        if (res->next())
+        {
+            LOG_INFO("Register failed: user already exists.");
+            std::string reply = JsonHelper::make_json("register", "server", "exists").dump();
+            send(clientSocket, reply.c_str(), reply.size(), 0);
+        }
+        else
+        {
+            // 2. 用户不存在，插入新用户
+            std::unique_ptr<sql::PreparedStatement> insertStmt(
+                conn->prepareStatement("INSERT INTO users(username, password) VALUES (?, ?)"));
+            insertStmt->setString(1, username);
+            insertStmt->setString(2, password);
+            int affectedRows = insertStmt->executeUpdate();
+            // 更新行数 成功失败
+            if (affectedRows > 0)
+            {
+                LOG_INFO("Register success!");
+                std::string reply = JsonHelper::make_json("register", "server", "success").dump();
+                send(clientSocket, reply.c_str(), reply.size(), 0);
+            }
+            else
+            {
+                LOG_ERROR("Register failed: no rows affected.");
+                std::string reply = JsonHelper::make_json("register", "server", "fail").dump();
+                send(clientSocket, reply.c_str(), reply.size(), 0);
+            }
+        }
+        break;
+    }
+    default:
+        LOG_WARN("Unknown message type received.");
+        break; // 默认情况，处理未知类型的消息
+    }
+
     // 在 Task 最后处理完数据之后，重新激活这个 fd
     struct epoll_event ev;
     ev.events = EPOLLIN | EPOLLONESHOT;
@@ -85,7 +151,7 @@ void handleClientMessageTask::execute()
 }
 
 // 通知要主线程要退出
-void handleClientMessageTask::notifyClientExit(int clientSocket,std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int>& brokenClients, int eventFd)
+void handleClientMessageTask::notifyClientExit(int clientSocket, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients, int eventFd)
 {
     {
         // 1. 加锁，push到 brokenClients 队列
@@ -96,4 +162,16 @@ void handleClientMessageTask::notifyClientExit(int clientSocket,std::shared_ptr<
     uint64_t u = 1;
     write(eventFd, &u, sizeof(u));
     LOG_INFO("client: exit");
+}
+
+MessageType handleClientMessageTask::stringToMessageType(const std::string &typeStr)
+{
+    static const std::unordered_map<std::string, MessageType> typeMap = {
+        {"exit", MessageType::EXIT},
+        {"login", MessageType::LOGIN},
+        {"text", MessageType::TEXT},
+        {"register", MessageType::REGISTER}};
+
+    auto it = typeMap.find(typeStr);
+    return (it != typeMap.end()) ? it->second : MessageType::UNKNOWN;
 }

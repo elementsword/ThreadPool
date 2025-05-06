@@ -1,10 +1,10 @@
 #include "jsonhelper.h"
 
-json JsonHelper::make_json(const std::string &type, const std::string &sender, const std::string &msg)
+json JsonHelper::make_json(const std::string &type, const std::string &username, const std::string &msg)
 {
     return {
         {"type", type},
-        {"from", sender},
+        {"username", username},
         {"msg", msg}};
 }
 
