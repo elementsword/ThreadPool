@@ -110,12 +110,26 @@ void Client::receiveMessage()
 {
     char buffer[1024] = {0};
     ssize_t bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+    if (bytesReceived == 0)
+    {
+        // 服务器关闭连接
+        handleError("服务器已关闭连接，客户端即将退出。\n");
+        closeConnection(); // 设置 isConnected = false，主循环会自动退出
+        return;
+    }
+    else if (bytesReceived < 0)
+    {
+        handleError("接收消息失败 \n");
+        closeConnection();
+        return;
+    }
+
     json j = JsonHelper::from_buffer(buffer, bytesReceived);
-    std::cout << j << std::endl;
     std::string type = j["type"];
     if (type == "text")
     {
-        std::cout << j["username"] << "：" << j["msg"] << std::endl;
+        std::cout << std::endl
+                  << j["username"] << "：" << j["msg"] << std::endl;
     }
     else if (type == "notice")
     {
@@ -124,10 +138,6 @@ void Client::receiveMessage()
     else if (type == "image_message")
     {
         std::cout << "" << std::endl;
-    }
-    else if (type == "exit")
-    {
-        closeConnection();
     }
     else
     {
@@ -157,10 +167,11 @@ void Client::handleError(const std::string &errorMessage)
 void Client::exitNormal()
 {
     std::string message("exit");
-    json j = JsonHelper::make_json("tom", "exit");
+    json j = JsonHelper::make_json("exit", username, "");
     std::string data = j.dump();
     size_t len = data.size();
     send(clientSocket, data.c_str(), len, 0);
+    closeConnection();
 }
 
 bool Client ::login()

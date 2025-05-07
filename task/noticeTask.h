@@ -16,6 +16,6 @@ public:
 
 private:
     int number;                                   // 消息
-    std::unordered_map<int, std::string> clients; // 客户端列表
+    const std::unordered_map<int, std::string> &clients; // 客户端列表
 };
 #endif // __BROADCASTTASK_H__
