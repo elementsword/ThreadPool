@@ -703,3 +703,20 @@
 2025-05-07 15:58:09,944 [ERROR] read failed
 2025-05-07 15:58:09,944 [INFO] client: exit
 2025-05-07 15:58:09,944 [INFO] Removed client fd: 18
+2025-05-07 17:27:44,948 [INFO] ThreadPool created with size: 4
+2025-05-07 17:27:45,303 [INFO] Server started on port 8080
+2025-05-07 17:27:49,283 [INFO] New client connected: 17
+2025-05-07 17:27:54,511 [INFO] Register success!
+2025-05-07 17:27:58,119 [INFO] Login success!
+2025-05-07 17:28:05,313 [INFO] Received message from client 17
+2025-05-07 17:28:05,313 [INFO] Sent message: {"msg":"eexit","type":"text","username":"daa"}
+2025-05-07 17:28:08,325 [INFO] client: exit
+2025-05-07 17:28:08,326 [ERROR] read failed
+2025-05-07 17:28:08,343 [INFO] Removed client fd: 17
+2025-05-07 17:28:08,343 [INFO] client: exit
+2025-05-07 17:28:08,343 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 17:28:18,165 [INFO] New client connected: 17
+2025-05-07 17:28:21,312 [INFO] Login success!
+2025-05-07 17:28:22,732 [ERROR] read failed
+2025-05-07 17:28:22,732 [INFO] client: exit
+2025-05-07 17:28:22,763 [INFO] Removed client fd: 17
