@@ -178,3 +178,528 @@
 2025-05-06 16:08:26,541 [INFO] client: exit
 2025-05-06 16:08:27,575 [ERROR] read failed
 2025-05-06 16:08:27,575 [INFO] client: exit
+2025-05-07 10:23:06,981 [INFO] ThreadPool created with size: 4
+2025-05-07 10:23:07,115 [INFO] Server started on port 8080
+2025-05-07 10:23:10,869 [INFO] New client connected: 17
+2025-05-07 10:23:18,125 [INFO] Already Login!
+2025-05-07 10:23:20,489 [INFO] Register success!
+2025-05-07 10:23:23,079 [INFO] Login failed: wrong username or password.
+2025-05-07 10:23:27,731 [INFO] Login success!
+2025-05-07 11:18:09,361 [ERROR] read failed
+2025-05-07 11:18:09,361 [INFO] client: exit
+2025-05-07 11:18:18,014 [INFO] ThreadPool created with size: 4
+2025-05-07 11:18:18,081 [INFO] Server started on port 8080
+2025-05-07 11:18:34,108 [INFO] ThreadPool created with size: 4
+2025-05-07 11:18:34,160 [INFO] Server started on port 8080
+2025-05-07 11:18:38,004 [INFO] New client connected: 17
+2025-05-07 11:18:41,217 [INFO] Register failed: user already exists.
+2025-05-07 11:18:52,087 [INFO] Register success!
+2025-05-07 11:18:54,807 [INFO] Login success!
+2025-05-07 11:21:12,575 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 11:22:08,834 [INFO] ThreadPool created with size: 4
+2025-05-07 11:22:08,886 [INFO] Server started on port 8080
+2025-05-07 11:22:11,991 [INFO] New client connected: 17
+2025-05-07 11:22:14,990 [INFO] Register success!
+2025-05-07 11:22:16,993 [INFO] Login success!
+2025-05-07 11:28:04,903 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 11:28:21,834 [INFO] ThreadPool created with size: 4
+2025-05-07 11:28:21,885 [INFO] Server started on port 8080
+2025-05-07 11:28:31,448 [INFO] New client connected: 17
+2025-05-07 11:28:34,016 [INFO] Register success!
+2025-05-07 11:28:35,941 [INFO] Login success!
+2025-05-07 11:29:29,504 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 11:30:44,446 [INFO] ThreadPool created with size: 4
+2025-05-07 11:30:44,497 [INFO] Server started on port 8080
+2025-05-07 11:30:54,478 [INFO] New client connected: 17
+2025-05-07 11:30:56,927 [INFO] Register success!
+2025-05-07 11:30:58,486 [INFO] Login success!
+2025-05-07 11:43:22,305 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 11:43:32,923 [INFO] ThreadPool created with size: 4
+2025-05-07 11:43:32,979 [INFO] Server started on port 8080
+2025-05-07 11:43:37,364 [INFO] New client connected: 17
+2025-05-07 11:43:39,520 [INFO] Register success!
+2025-05-07 11:43:40,985 [INFO] Login success!
+2025-05-07 11:44:08,114 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 11:44:14,627 [ERROR] connect failed
+2025-05-07 11:44:17,724 [INFO] ThreadPool created with size: 4
+2025-05-07 11:44:17,784 [INFO] Server started on port 8080
+2025-05-07 11:44:25,092 [INFO] New client connected: 17
+2025-05-07 11:44:26,965 [INFO] Register success!
+2025-05-07 11:44:28,868 [INFO] Login success!
+2025-05-07 11:58:23,008 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 11:58:34,694 [INFO] ThreadPool created with size: 4
+2025-05-07 11:58:34,768 [INFO] Server started on port 8080
+2025-05-07 11:58:43,039 [INFO] New client connected: 17
+2025-05-07 11:58:49,491 [INFO] Register failed: user already exists.
+2025-05-07 11:58:53,741 [INFO] Register success!
+2025-05-07 11:58:56,670 [INFO] Login success!
+2025-05-07 13:52:13,389 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 13:54:33,951 [INFO] ThreadPool created with size: 4
+2025-05-07 13:54:34,046 [INFO] Server started on port 8080
+2025-05-07 13:54:37,599 [INFO] New client connected: 17
+2025-05-07 13:54:40,407 [INFO] Register success!
+2025-05-07 13:54:42,642 [INFO] Login success!
+2025-05-07 14:03:15,629 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 14:03:31,686 [INFO] ThreadPool created with size: 4
+2025-05-07 14:03:31,767 [INFO] Server started on port 8080
+2025-05-07 14:03:36,285 [INFO] New client connected: 17
+2025-05-07 14:03:38,557 [INFO] Register failed: user already exists.
+2025-05-07 14:03:41,471 [INFO] Register success!
+2025-05-07 14:03:43,104 [INFO] Login success!
+2025-05-07 14:05:09,847 [ERROR] read failed
+2025-05-07 14:05:09,848 [INFO] client: exit
+2025-05-07 14:05:09,849 [WARN] Attempted to remove unknown client fd: 1119623811
+2025-05-07 14:05:09,849 [INFO] Removed client fd: 17
+2025-05-07 14:05:09,849 [WARN] Attempted to remove unknown client fd: 1119623811
+2025-05-07 14:05:09,849 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623811
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623812
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,850 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623374
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623375
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,851 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 1119623376
+2025-05-07 14:05:09,852 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:07:18,081 [INFO] ThreadPool created with size: 4
+2025-05-07 14:07:18,136 [INFO] Server started on port 8080
+2025-05-07 14:07:22,912 [INFO] New client connected: 17
+2025-05-07 14:07:25,343 [INFO] Register failed: user already exists.
+2025-05-07 14:07:28,107 [INFO] Register success!
+2025-05-07 14:07:30,133 [INFO] Login success!
+2025-05-07 14:13:13,885 [ERROR] read failed
+2025-05-07 14:13:13,885 [INFO] client: exit
+2025-05-07 14:13:13,885 [WARN] Attempted to remove unknown client fd: 527124025
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124025
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124025
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124025
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124025
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124026
+2025-05-07 14:13:13,886 [INFO] Removed client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124026
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527124026
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123588
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123589
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,886 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123590
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,887 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527123591
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,888 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124012
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,889 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:13,890 [WARN] Attempted to remove unknown client fd: 527124013
+2025-05-07 14:13:29,337 [INFO] ThreadPool created with size: 4
+2025-05-07 14:13:29,417 [INFO] Server started on port 8080
+2025-05-07 14:13:32,563 [INFO] New client connected: 17
+2025-05-07 14:13:34,775 [INFO] Register failed: user already exists.
+2025-05-07 14:13:40,173 [INFO] Register success!
+2025-05-07 14:13:42,605 [INFO] Login success!
+2025-05-07 14:13:51,031 [ERROR] read failed
+2025-05-07 14:13:51,031 [INFO] client: exit
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [INFO] Removed client fd: 17
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,032 [WARN] Attempted to remove unknown client fd: 1431656369
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655931
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,033 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655933
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655934
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431655935
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,034 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656355
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 17
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656356
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656357
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656357
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656357
+2025-05-07 14:13:51,035 [WARN] Attempted to remove unknown client fd: 1431656357
+2025-05-07 14:19:32,448 [INFO] ThreadPool created with size: 4
+2025-05-07 14:19:32,533 [INFO] Server started on port 8080
+2025-05-07 14:19:37,137 [INFO] New client connected: 17
+2025-05-07 14:19:39,419 [INFO] Register success!
+2025-05-07 14:19:41,708 [INFO] Login failed: wrong username or password.
+2025-05-07 14:19:45,046 [INFO] Login success!
+2025-05-07 14:19:46,464 [ERROR] read failed
+2025-05-07 14:19:46,464 [INFO] client: exit
+2025-05-07 14:19:46,464 [INFO] Removed client fd: 17
+2025-05-07 14:20:12,598 [INFO] New client connected: 17
+2025-05-07 14:20:15,949 [INFO] Register failed: user already exists.
+2025-05-07 14:20:24,812 [INFO] Already Login!
+2025-05-07 14:20:27,677 [INFO] Login failed: wrong username or password.
+2025-05-07 14:20:30,247 [INFO] Register success!
+2025-05-07 14:20:32,352 [INFO] Login success!
+2025-05-07 14:25:59,394 [INFO] ThreadPool created with size: 4
+2025-05-07 14:25:59,469 [INFO] Server started on port 8080
+2025-05-07 14:27:22,514 [INFO] ThreadPool created with size: 4
+2025-05-07 14:27:22,605 [INFO] Server started on port 8080
+2025-05-07 14:27:34,508 [INFO] New client connected: 17
+2025-05-07 14:27:46,574 [INFO] Login failed: wrong username or password.
+2025-05-07 14:27:47,293 [INFO] client: exit
+2025-05-07 14:27:47,294 [INFO] Removed client fd: 17
+2025-05-07 14:27:55,349 [INFO] New client connected: 17
+2025-05-07 14:27:59,888 [INFO] Register success!
+2025-05-07 14:28:01,927 [INFO] Login success!
+2025-05-07 14:29:19,679 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-07 14:29:43,438 [INFO] ThreadPool created with size: 4
+2025-05-07 14:29:43,500 [INFO] Server started on port 8080
+2025-05-07 14:29:48,002 [INFO] New client connected: 17
+2025-05-07 14:29:49,824 [INFO] Register failed: user already exists.
+2025-05-07 14:29:54,050 [INFO] Register failed: user already exists.
+2025-05-07 14:29:55,681 [INFO] Already Login!
+2025-05-07 14:30:01,405 [INFO] Register success!
+2025-05-07 14:30:03,756 [INFO] Login success!
+2025-05-07 14:30:41,927 [ERROR] read failed
+2025-05-07 14:30:41,927 [INFO] client: exit
+2025-05-07 14:30:41,928 [INFO] Removed client fd: 17
+2025-05-07 14:42:24,325 [INFO] ThreadPool created with size: 4
+2025-05-07 14:42:24,390 [INFO] Server started on port 8080
+2025-05-07 14:42:28,016 [INFO] New client connected: 17
+2025-05-07 14:42:30,031 [INFO] Register failed: user already exists.
+2025-05-07 14:42:33,758 [INFO] Register success!
+2025-05-07 14:42:38,283 [INFO] Login success!
+2025-05-07 14:42:52,263 [ERROR] read failed
+2025-05-07 14:42:52,263 [INFO] client: exit
+2025-05-07 14:42:52,263 [INFO] Removed client fd: 17
+2025-05-07 14:46:18,921 [INFO] ThreadPool created with size: 4
+2025-05-07 14:46:19,014 [INFO] Server started on port 8080
+2025-05-07 14:46:23,845 [INFO] New client connected: 17
+2025-05-07 14:46:28,546 [INFO] Register failed: user already exists.
+2025-05-07 14:46:31,438 [INFO] Login failed: wrong username or password.
+2025-05-07 14:46:38,389 [INFO] Login failed: wrong username or password.
+2025-05-07 14:46:44,182 [INFO] Login failed: wrong username or password.
+2025-05-07 14:46:48,724 [INFO] Register failed: user already exists.
+2025-05-07 14:46:52,228 [INFO] Login failed: wrong username or password.
+2025-05-07 14:46:54,346 [INFO] Register success!
+2025-05-07 14:46:56,658 [INFO] Login success!
+2025-05-07 14:47:00,923 [INFO] Received message from client 17
+2025-05-07 14:47:00,923 [INFO] Sent message: {"msg":"hello","type":"text","username":""}
+2025-05-07 14:47:02,515 [INFO] Sent message: {"msg":"dask","type":"text","username":""}
+2025-05-07 14:47:02,515 [INFO] Received message from client 17
+2025-05-07 14:49:21,153 [INFO] New client connected: 18
+2025-05-07 14:49:24,224 [INFO] Register failed: user already exists.
+2025-05-07 14:49:27,547 [INFO] Register success!
+2025-05-07 14:49:29,618 [INFO] Login success!
+2025-05-07 14:49:38,704 [INFO] Received message from client 18
+2025-05-07 14:49:38,704 [INFO] Sent message: {"msg":"hehello","type":"text","username":"m"}
+2025-05-07 14:50:27,966 [ERROR] read failed
+2025-05-07 14:50:27,966 [INFO] client: exit
+2025-05-07 14:50:27,966 [INFO] Removed client fd: 17
+2025-05-07 14:50:29,560 [ERROR] read failed
+2025-05-07 14:50:29,560 [INFO] client: exit
+2025-05-07 14:50:29,560 [INFO] Removed client fd: 18
+2025-05-07 15:44:16,803 [INFO] ThreadPool created with size: 4
+2025-05-07 15:44:16,855 [INFO] Server started on port 8080
+2025-05-07 15:44:20,225 [INFO] New client connected: 17
+2025-05-07 15:44:24,913 [INFO] Register success!
+2025-05-07 15:44:27,363 [INFO] Login success!
+2025-05-07 15:45:22,615 [INFO] New client connected: 18
+2025-05-07 15:45:27,340 [INFO] Register success!
+2025-05-07 15:45:31,658 [INFO] Login success!
+2025-05-07 15:45:34,064 [INFO] Received message from client 18
+2025-05-07 15:45:34,064 [INFO] Sent message: {"msg":"he","type":"text","username":"zxcv"}
+2025-05-07 15:45:37,373 [INFO] Received message from client 17
+2025-05-07 15:45:37,373 [INFO] Sent message: {"msg":"he","type":"text","username":"hel"}
+2025-05-07 15:45:52,648 [INFO] client: exit
+2025-05-07 15:45:52,648 [INFO] Removed client fd: 18
+2025-05-07 15:46:01,315 [ERROR] read failed
+2025-05-07 15:46:01,315 [INFO] client: exit
+2025-05-07 15:46:01,315 [INFO] Removed client fd: 17
+2025-05-07 15:57:30,385 [INFO] ThreadPool created with size: 4
+2025-05-07 15:57:30,458 [INFO] Server started on port 8080
+2025-05-07 15:57:34,160 [INFO] New client connected: 17
+2025-05-07 15:57:38,660 [INFO] Register success!
+2025-05-07 15:57:42,379 [INFO] Login success!
+2025-05-07 15:57:51,327 [INFO] New client connected: 18
+2025-05-07 15:57:54,500 [INFO] Register success!
+2025-05-07 15:57:57,169 [INFO] Login success!
+2025-05-07 15:58:03,518 [ERROR] read failed
+2025-05-07 15:58:03,518 [INFO] client: exit
+2025-05-07 15:58:03,519 [INFO] Removed client fd: 17
+2025-05-07 15:58:09,944 [ERROR] read failed
+2025-05-07 15:58:09,944 [INFO] client: exit
+2025-05-07 15:58:09,944 [INFO] Removed client fd: 18

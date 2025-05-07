@@ -19,7 +19,7 @@ class handleClientMessageTask : public Task
 {
 public:
     // 构造函数
-    handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd,int eventFd,std::shared_ptr<std::mutex> clientsMutex,const std::unordered_map<int, std::string> &clients,std::shared_ptr<std::mutex> brokenClientsMutex,std::queue<int> &brokenClients);
+    handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd,int eventFd,std::shared_ptr<std::mutex> clientsMutex,std::unordered_map<int, std::string> &clients,std::shared_ptr<std::mutex> brokenClientsMutex,std::queue<int> &brokenClients);
 
     // 析构函数
     ~handleClientMessageTask();
@@ -32,9 +32,9 @@ private:
     int epollFd;              // 文件描述符
     int eventFd;              //事件fd 
     std::shared_ptr<std::mutex> clientsMutex ; //要删除的客户端的锁
-    std::unordered_map<int, std::string> clients; // 客户端列表
+    std::unordered_map<int, std::string> &clients; // 客户端列表
     std::shared_ptr<std::mutex> brokenClientsMutex;         // 保护queue队列
-    std::queue<int> brokenClients;          //断开的队列
+    std::queue<int> &brokenClients;          //断开的队列
     void notifyClientExit(int clientSocket,std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int>& brokenClients, int eventFd);
     MessageType stringToMessageType(const std::string& typeStr);       //str 转换 MessageType
 };

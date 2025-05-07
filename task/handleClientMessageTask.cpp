@@ -1,7 +1,7 @@
 #include "handleClientMessageTask.h"
 
 // 构造函数
-handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, const std::unordered_map<int, std::string> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients)
+handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, std::string> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients)
     : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients)
 {
 }
@@ -71,6 +71,12 @@ void handleClientMessageTask::execute()
                 // 查到了，账号密码正确 并且未登录
                 std::string reply = JsonHelper::make_json("login", "server", "true").dump();
                 send(clientSocket, reply.c_str(), reply.size(), 0);
+                std::lock_guard<std::mutex> lock(*clientsMutex); // 加锁 修改clientSocket状态
+                auto it = clients.find(clientSocket);
+                if (it != clients.end())
+                {
+                    it->second = "login";
+                }
             }
         }
         else

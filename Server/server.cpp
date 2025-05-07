@@ -4,7 +4,6 @@ Server::Server(int port, int threadPoolSize)
     : port(port), threadPool(threadPoolSize), sqlPool(mysqlPool::getInstance()), clientsMutex(std::make_shared<std::mutex>()),
       brokenClientsMutex(std::make_shared<std::mutex>())
 {
-
     // 创建监听套接字
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0)
@@ -97,17 +96,19 @@ void Server::start()
         }
         for (int i = 0; i < numEvents; ++i)
         {
-            //处理新链接
+            // 处理新链接
             if (events[i].data.fd == serverSocket)
             {
                 handleNewConnection();
             }
-            //eventFd收到信息 删除Client
+            // eventFd收到信息 删除Client
             else if (events[i].data.fd == eventFd)
             {
+                uint64_t value;
+                read(eventFd, &value, sizeof(value)); // 重要：清除事件
                 removeClient();
             }
-            //处理信息
+            // 处理信息
             else
             {
                 handleClientMessage(events[i].data.fd);
@@ -144,20 +145,20 @@ void Server::handleNewConnection()
     // 添加客户端套接字到列表
     std::lock_guard<std::mutex> lock(*clientsMutex);
     clients.insert({clientSocket, "connected"});
-    personNumber++;
+    personNumber.fetch_add(1);
     LOG_INFO("New client connected: " + std::to_string(clientSocket));
 }
 
 void Server::removeClient()
 {
 
-    Task *task = new removeTask(clientsMutex, clients);
+    Task *task = new removeTask(clientsMutex, clients, brokenClientsMutex, brokenClients,personNumber);
     threadPool.submit(task);
 }
 
 void Server::handleClientMessage(int clientSocket)
 {
-    Task *task = new handleClientMessageTask(clientSocket, sqlPool, epollFd, eventFd, clientsMutex, clients,brokenClientsMutex,brokenClients);
+    Task *task = new handleClientMessageTask(clientSocket, sqlPool, epollFd, eventFd, clientsMutex, clients, brokenClientsMutex, brokenClients);
     threadPool.submit(task);
 }
 
