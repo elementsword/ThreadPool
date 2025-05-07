@@ -9,7 +9,7 @@ TARGET = app
 
 # 源文件和头文件路径
 ClientSRCDIR = mainClient Client log json
-ServerSRCDIR = mainServer log task threadpool Server json mysqlPool
+ServerSRCDIR = mainServer log task threadpool Server json mysqlPool clientInfo
 INCLUDE = -Ilog 
 
 # 找到所有源文件

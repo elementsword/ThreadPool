@@ -7,7 +7,7 @@ class noticeTask : public Task
 {
 public:
     // 构造函数
-    noticeTask(int n, const std::unordered_map<int, std::string> &clients);
+    noticeTask(int n, const std::unordered_map<int, clientInfo> &clients);
 
     // 析构函数
     ~noticeTask();
@@ -16,6 +16,6 @@ public:
 
 private:
     int number;                                   // 消息
-    const std::unordered_map<int, std::string> &clients; // 客户端列表
+    const std::unordered_map<int, clientInfo> &clients; // 客户端列表
 };
 #endif // __BROADCASTTASK_H__

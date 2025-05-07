@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include "../json/jsonhelper.h"
+#include "../clientInfo/clientInfo.h"
+#include "../mysqlPool/mysqlPool.h"
 // 抽象基类 Task
 class Task {
 public:

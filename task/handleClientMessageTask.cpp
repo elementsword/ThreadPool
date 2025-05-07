@@ -1,7 +1,7 @@
 #include "handleClientMessageTask.h"
 
 // 构造函数
-handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, std::string> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients)
+handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients)
     : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients)
 {
 }
@@ -29,10 +29,15 @@ void handleClientMessageTask::execute()
     {
     case MessageType::EXIT:
     {
+        std::string username = JsonHelper::get_X(j, "username");
         std::string reply = JsonHelper::make_json("exit", "server").dump();
         send(clientSocket, reply.c_str(), reply.size(), 0);
+        std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
+        std::unique_ptr<sql::PreparedStatement> updatePstmt(
+            conn->prepareStatement("UPDATE users SET is_logged_in=0 WHERE username=?"));
+        updatePstmt->setString(1, username);
+        updatePstmt->execute();
         notifyClientExit(clientSocket, brokenClientsMutex, brokenClients, eventFd);
-        return;
         break;
     }
     case MessageType::LOGIN:
@@ -75,7 +80,7 @@ void handleClientMessageTask::execute()
                 auto it = clients.find(clientSocket);
                 if (it != clients.end())
                 {
-                    it->second = "login";
+                    it->second.status = "login";
                 }
             }
         }

@@ -144,7 +144,9 @@ void Server::handleNewConnection()
 
     // 添加客户端套接字到列表
     std::lock_guard<std::mutex> lock(*clientsMutex);
-    clients.insert({clientSocket, "connected"});
+    clientInfo newClient;
+    newClient.status = "connected";
+    clients.insert({clientSocket, newClient});
     personNumber.fetch_add(1);
     LOG_INFO("New client connected: " + std::to_string(clientSocket));
 }
@@ -152,7 +154,7 @@ void Server::handleNewConnection()
 void Server::removeClient()
 {
 
-    Task *task = new removeTask(clientsMutex, clients, brokenClientsMutex, brokenClients,personNumber);
+    Task *task = new removeTask(clientsMutex, clients, brokenClientsMutex, brokenClients, personNumber,sqlPool);
     threadPool.submit(task);
 }
 

@@ -20,14 +20,10 @@
 #include "../task/handleClientMessageTask.h"
 #include "../task/removeTask.h"
 #include <sys/eventfd.h>
-
-// 客户端状态结构体
-struct ClientStatus
-{
-    int clientFd;
-    std::string status; // 如："connected", "disconnected", "busy" 等
-};
+#include "../clientInfo/clientInfo.h"
 #define eventsSize 1024
+
+
 class Server
 {
 public:
@@ -47,7 +43,7 @@ private:
     mysqlPool *sqlPool;                             // 数据库连接池对象
     std::shared_ptr<std::mutex> clientsMutex;       // 保护客户端列表的锁
     std::shared_ptr<std::mutex> brokenClientsMutex; // 保护queue队列
-    std::unordered_map<int, std::string> clients;   // 客户端套接字列表
+    std::unordered_map<int, clientInfo> clients;   // 客户端套接字列表
     std::queue<int> brokenClients;                  // 断开的队列
     void handleNewConnection();                     // 处理新连接
     void handleClientMessage(int clientSocket);     // 处理客户端消息
