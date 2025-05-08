@@ -1,5 +1,11 @@
 #include "client.h"
-
+#include <iostream>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/epoll.h> 
+#include "../log/log.h" 
+#include "../json/jsonhelper.h"
+#include <vector>
 // 构造
 Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false), isLogin(false)
 {
