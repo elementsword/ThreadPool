@@ -720,3 +720,12 @@
 2025-05-07 17:28:22,732 [ERROR] read failed
 2025-05-07 17:28:22,732 [INFO] client: exit
 2025-05-07 17:28:22,763 [INFO] Removed client fd: 17
+2025-05-08 11:29:09,067 [INFO] ThreadPool created with size: 4
+2025-05-08 11:29:09,369 [INFO] Server started on port 8080
+2025-05-08 11:29:27,267 [INFO] New client connected: 17
+2025-05-08 11:29:33,311 [INFO] Register success!
+2025-05-08 11:29:38,722 [INFO] Login failed: wrong password.
+2025-05-08 11:29:48,984 [INFO] Login success!
+2025-05-08 11:29:56,216 [ERROR] read failed
+2025-05-08 11:29:56,217 [INFO] client: exit
+2025-05-08 11:29:56,217 [INFO] Removed client fd: 17

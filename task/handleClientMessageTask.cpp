@@ -1,5 +1,5 @@
 #include "handleClientMessageTask.h"
-
+#include "../crypto/hash_util.h"
 // 构造函数
 handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients)
     : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients)
@@ -47,10 +47,10 @@ void handleClientMessageTask::execute()
 
         std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
         // 创建 prepared statement
-        std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement("SELECT * FROM users WHERE username=? AND password=?"));
+        std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement("SELECT * FROM users WHERE username=?"));
+
         // 设置参数
         pstmt->setString(1, username); // 第1个问号 ?
-        pstmt->setString(2, password); // 第2个问号 ?
         // 执行查询
         std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
         // 验证 是否登录
@@ -67,26 +67,38 @@ void handleClientMessageTask::execute()
             }
             else
             {
-                // 用户未登录，更新状态为登录
-                std::unique_ptr<sql::PreparedStatement> updatePstmt(
-                    conn->prepareStatement("UPDATE users SET is_logged_in=1 WHERE username=?"));
-                updatePstmt->setString(1, username);
-                updatePstmt->execute();
-                LOG_INFO("Login success!");
-                // 查到了，账号密码正确 并且未登录
-                std::string reply = JsonHelper::make_json("login", "server", "true").dump();
-                send(clientSocket, reply.c_str(), reply.size(), 0);
-                std::lock_guard<std::mutex> lock(*clientsMutex); // 加锁 修改clientSocket状态
-                auto it = clients.find(clientSocket);
-                if (it != clients.end())
+                std::string storedHash = res->getString("password");
+                std::string storedSalt = res->getString("salt");
+                if (verifyPassword(password, storedSalt, storedHash))
                 {
-                    it->second.status = "login";
+
+                    // 用户未登录，更新状态为登录
+                    std::unique_ptr<sql::PreparedStatement> updatePstmt(
+                        conn->prepareStatement("UPDATE users SET is_logged_in=1 WHERE username=?"));
+                    updatePstmt->setString(1, username);
+                    updatePstmt->execute();
+                    LOG_INFO("Login success!");
+                    // 查到了，账号密码正确 并且未登录
+                    std::string reply = JsonHelper::make_json("login", "server", "true").dump();
+                    send(clientSocket, reply.c_str(), reply.size(), 0);
+                    std::lock_guard<std::mutex> lock(*clientsMutex); // 加锁 修改clientSocket状态
+                    auto it = clients.find(clientSocket);
+                    if (it != clients.end())
+                    {
+                        it->second.status = "login";
+                    }
+                }
+                else
+                {
+                    LOG_INFO("Login failed: wrong password.");
+                    std::string reply = JsonHelper::make_json("login", "server", "false").dump();
+                    send(clientSocket, reply.c_str(), reply.size(), 0);
                 }
             }
         }
         else
         {
-            LOG_INFO("Login failed: wrong username or password.");
+            LOG_INFO("Login failed: wrong username.");
             std::string reply = JsonHelper::make_json("login", "server", "false").dump();
             send(clientSocket, reply.c_str(), reply.size(), 0);
         }
@@ -127,11 +139,14 @@ void handleClientMessageTask::execute()
         }
         else
         {
+            std::string salt = generateSalt();
+            std::string hash = hashPasswordWithSalt(password, salt);
             // 2. 用户不存在，插入新用户
             std::unique_ptr<sql::PreparedStatement> insertStmt(
-                conn->prepareStatement("INSERT INTO users(username, password) VALUES (?, ?)"));
+                conn->prepareStatement("INSERT INTO users(username, password,salt) VALUES (?, ? ,?)"));
             insertStmt->setString(1, username);
-            insertStmt->setString(2, password);
+            insertStmt->setString(2, hash);
+            insertStmt->setString(3, salt);
             int affectedRows = insertStmt->executeUpdate();
             // 更新行数 成功失败
             if (affectedRows > 0)

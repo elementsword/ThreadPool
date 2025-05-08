@@ -1,14 +1,13 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 #include <string>
-#include <vector>
 #include <arpa/inet.h>
-#include <iostream>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/epoll.h> 
-#include "../log/log.h" 
-#include "../json/jsonhelper.h"
+
+
+// 前向声明日志模块和 JSON 工具类（假设是类）
+class Logger;
+class JsonHelper;
+
 class Client
 {
 public:
