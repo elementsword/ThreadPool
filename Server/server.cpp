@@ -147,7 +147,6 @@ void Server::handleNewConnection()
     clientInfo newClient;
     newClient.status = "connected";
     clients.insert({clientSocket, newClient});
-    personNumber.fetch_add(1);
     LOG_INFO("New client connected: " + std::to_string(clientSocket));
 }
 
@@ -160,7 +159,7 @@ void Server::removeClient()
 
 void Server::handleClientMessage(int clientSocket)
 {
-    Task *task = new handleClientMessageTask(clientSocket, sqlPool, epollFd, eventFd, clientsMutex, clients, brokenClientsMutex, brokenClients);
+    Task *task = new handleClientMessageTask(clientSocket, sqlPool, epollFd, eventFd, clientsMutex, clients, brokenClientsMutex, brokenClients,personNumber);
     threadPool.submit(task);
 }
 

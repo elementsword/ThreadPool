@@ -1,5 +1,5 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef TOOLS_H
+#define TOOLS_H
 #include <string>
 #include <arpa/inet.h>
 
@@ -35,6 +35,7 @@ private:
     bool login();                                       // 登录
     void registerAccount();                             // 注册
     void ui();                                          // ui
+    void uploadFile(const std::string &filepath);                       //上传
 
 };
-#endif
+#endif //TOOLS_H

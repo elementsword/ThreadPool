@@ -8,8 +8,8 @@ CXXFLAGS = -Wall -Wextra -std=c++11 -g
 TARGET = app
 
 # 源文件和头文件路径
-ClientSRCDIR = mainClient Client log json
-ServerSRCDIR = mainServer log task threadpool Server json mysqlPool clientInfo crypto
+ClientSRCDIR = mainClient Client log json tools openssl
+ServerSRCDIR = mainServer log task threadpool Server json mysqlPool clientInfo openssl tools
 INCLUDE = -Ilog 
 
 # 找到所有源文件
@@ -21,8 +21,7 @@ CLIENT_OBJ = $(CLIENT_SRC:.cpp=.o)
 SERVER_OBJ = $(SERVER_SRC:.cpp=.o)
 
 # 依赖 log4cpp mysql opensll
-LIBS = -llog4cpp -lmysqlcppconn -lcrypto
-
+LIBS = -llog4cpp -lmysqlcppconn -lcrypto -lssl 
 # 目标可执行文件
 CLIENT_TARGET = client
 SERVER_TARGET = server

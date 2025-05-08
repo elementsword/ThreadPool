@@ -10,6 +10,7 @@ enum class MessageType {
     LOGIN,
     TEXT,
     REGISTER,
+    UPLOAD,
     UNKNOWN
 };
 
@@ -17,7 +18,7 @@ class handleClientMessageTask : public Task
 {
 public:
     // 构造函数
-    handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd,int eventFd,std::shared_ptr<std::mutex> clientsMutex,std::unordered_map<int, clientInfo> &clients,std::shared_ptr<std::mutex> brokenClientsMutex,std::queue<int> &brokenClients);
+    handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd,int eventFd,std::shared_ptr<std::mutex> clientsMutex,std::unordered_map<int, clientInfo> &clients,std::shared_ptr<std::mutex> brokenClientsMutex,std::queue<int> &brokenClients,std::atomic<int> &personNumber);
 
     // 析构函数
     ~handleClientMessageTask();
@@ -33,6 +34,7 @@ private:
     std::unordered_map<int, clientInfo> &clients; // 客户端列表
     std::shared_ptr<std::mutex> brokenClientsMutex;         // 保护queue队列
     std::queue<int> &brokenClients;          //断开的队列
+    std::atomic<int> personNumber;           //人数
     void notifyClientExit(int clientSocket,std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int>& brokenClients, int eventFd);
     MessageType stringToMessageType(const std::string& typeStr);       //str 转换 MessageType
 };

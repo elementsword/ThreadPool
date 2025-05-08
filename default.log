@@ -729,3 +729,92 @@
 2025-05-08 11:29:56,216 [ERROR] read failed
 2025-05-08 11:29:56,217 [INFO] client: exit
 2025-05-08 11:29:56,217 [INFO] Removed client fd: 17
+2025-05-08 17:01:00,421 [INFO] ThreadPool created with size: 4
+2025-05-08 17:01:00,604 [INFO] Server started on port 8080
+2025-05-08 17:01:03,309 [INFO] New client connected: 17
+2025-05-08 17:01:09,929 [INFO] Already Login!
+2025-05-08 17:01:21,638 [INFO] Register success!
+2025-05-08 17:01:25,919 [INFO] Login success!
+2025-05-08 17:02:56,678 [ERROR] read failed
+2025-05-08 17:02:56,678 [INFO] client: exit
+2025-05-08 17:02:56,678 [INFO] Removed client fd: 17
+2025-05-08 17:03:22,015 [INFO] New client connected: 17
+2025-05-08 17:03:30,521 [INFO] Already Login!
+2025-05-08 17:03:36,351 [INFO] Register success!
+2025-05-08 17:03:41,192 [INFO] Login success!
+2025-05-08 17:05:39,162 [ERROR] read failed
+2025-05-08 17:05:39,162 [INFO] client: exit
+2025-05-08 17:05:39,163 [INFO] Removed client fd: 17
+2025-05-08 17:05:56,481 [INFO] New client connected: 17
+2025-05-08 17:06:01,834 [INFO] Register success!
+2025-05-08 17:06:06,970 [INFO] Login success!
+2025-05-08 17:08:09,773 [INFO] New client connected: 18
+2025-05-08 17:08:11,856 [INFO] Already Login!
+2025-05-08 17:08:16,190 [INFO] Register failed: user already exists.
+2025-05-08 17:08:18,450 [INFO] Register success!
+2025-05-08 17:08:21,453 [INFO] Login success!
+2025-05-08 17:08:32,336 [INFO] Received message from client 17
+2025-05-08 17:08:32,336 [INFO] Sent message: {"msg":"hge","type":"text","username":"a"}
+2025-05-08 17:08:32,417 [ERROR] read failed
+2025-05-08 17:08:32,417 [INFO] client: exit
+2025-05-08 17:08:32,418 [INFO] Removed client fd: 17
+2025-05-08 17:10:10,068 [ERROR] read failed
+2025-05-08 17:10:10,068 [INFO] client: exit
+2025-05-08 17:10:10,070 [INFO] Removed client fd: 18
+2025-05-08 17:12:51,849 [INFO] ThreadPool created with size: 4
+2025-05-08 17:12:51,928 [INFO] Server started on port 8080
+2025-05-08 17:12:56,514 [INFO] New client connected: 17
+2025-05-08 17:13:01,304 [INFO] New client connected: 18
+2025-05-08 17:13:07,109 [INFO] Register success!
+2025-05-08 17:13:11,062 [INFO] Login success!
+2025-05-08 17:13:48,653 [INFO] Register success!
+2025-05-08 17:13:50,613 [INFO] Login success!
+2025-05-08 17:14:12,432 [INFO] New client connected: 19
+2025-05-08 17:14:54,023 [INFO] Sent message: {"msg":"xd","type":"text","username":"hel"}
+2025-05-08 17:14:54,023 [INFO] Received message from client 17
+2025-05-08 17:14:59,342 [INFO] Received message from client 18
+2025-05-08 17:14:59,342 [INFO] Sent message: {"msg":"oj","type":"text","username":"d"}
+2025-05-08 17:15:12,365 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-08 17:15:12,365 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-08 20:31:21,302 [INFO] ThreadPool created with size: 4
+2025-05-08 20:31:21,384 [INFO] Server started on port 8080
+2025-05-08 20:31:31,543 [INFO] New client connected: 17
+2025-05-08 20:31:36,467 [INFO] Already Login!
+2025-05-08 20:31:46,837 [INFO] Already Login!
+2025-05-08 20:31:51,429 [INFO] Already Login!
+2025-05-08 20:31:56,649 [INFO] client: exit
+2025-05-08 20:31:56,650 [ERROR] read failed
+2025-05-08 20:31:56,650 [INFO] Removed client fd: 17
+2025-05-08 20:31:56,651 [INFO] client: exit
+2025-05-08 20:31:56,651 [WARN] Attempted to remove unknown client fd: 17
+2025-05-08 20:32:49,734 [INFO] New client connected: 17
+2025-05-08 20:32:57,935 [INFO] Login failed: wrong password.
+2025-05-08 20:33:03,379 [INFO] Login success!
+2025-05-08 20:33:07,451 [INFO] Received message from client 17
+2025-05-08 20:33:07,451 [INFO] Sent message: {"msg":"upload","type":"text","username":"hel"}
+2025-05-08 20:34:37,197 [ERROR] read failed
+2025-05-08 20:34:37,197 [INFO] client: exit
+2025-05-08 20:34:37,214 [INFO] Removed client fd: 17
+2025-05-08 20:34:38,340 [INFO] New client connected: 17
+2025-05-08 20:34:43,507 [INFO] Already Login!
+2025-05-08 20:34:51,415 [INFO] Already Login!
+2025-05-08 20:34:54,463 [INFO] client: exit
+2025-05-08 20:34:54,463 [ERROR] read failed
+2025-05-08 20:34:54,464 [INFO] Removed client fd: 17
+2025-05-08 20:34:54,464 [INFO] client: exit
+2025-05-08 20:34:54,464 [WARN] Attempted to remove unknown client fd: 17
+2025-05-08 20:37:29,189 [INFO] New client connected: 4
+2025-05-08 20:37:34,836 [ERROR] read failed
+2025-05-08 20:37:34,837 [INFO] client: exit
+2025-05-08 20:37:34,838 [INFO] Removed client fd: 4
+2025-05-08 20:37:39,441 [INFO] New client connected: 4
+2025-05-08 20:37:43,632 [INFO] Login failed: wrong username.
+2025-05-08 20:37:46,901 [INFO] Register failed: user already exists.
+2025-05-08 20:37:52,939 [INFO] Login failed: wrong username.
+2025-05-08 20:37:55,787 [INFO] Register success!
+2025-05-08 20:37:57,974 [INFO] Login success!
+2025-05-08 20:38:11,958 [ERROR] read failed
+2025-05-08 20:38:11,958 [INFO] client: exit
+2025-05-08 20:38:11,959 [INFO] Removed client fd: 4
