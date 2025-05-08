@@ -1,8 +1,9 @@
 #include "handleClientMessageTask.h"
-#include "../crypto/hash_util.h"
+#include "../openssl/hash_util.h"
+#include <fstream>
 // 构造函数
-handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients)
-    : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients)
+handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients,std::atomic<int> &personNumber)
+    : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients),personNumber(personNumber)
 {
 }
 
@@ -81,6 +82,7 @@ void handleClientMessageTask::execute()
                     // 查到了，账号密码正确 并且未登录
                     std::string reply = JsonHelper::make_json("login", "server", "true").dump();
                     send(clientSocket, reply.c_str(), reply.size(), 0);
+                    personNumber.fetch_add(1);
                     std::lock_guard<std::mutex> lock(*clientsMutex); // 加锁 修改clientSocket状态
                     auto it = clients.find(clientSocket);
                     if (it != clients.end())
@@ -164,6 +166,63 @@ void handleClientMessageTask::execute()
         }
         break;
     }
+
+    case MessageType::UPLOAD:
+    {
+        std::string username = JsonHelper::get_X(j, "username");
+        std::string fileInfo = JsonHelper::get_X(j, "msg");
+        json f = json::parse(fileInfo);
+        std::string filename = JsonHelper::get_X(f, "filename");
+        std::string filesizeStr = JsonHelper::get_X(f, "filesize");
+        std::string filemd5 = JsonHelper::get_X(f, "md5");
+        size_t filesize = std::stoi(filesizeStr);
+        std::ofstream outfile("uploads/" + filename, std::ios::binary);
+        if (!outfile.is_open())
+        {
+            std::cerr << "无法创建文件" << std::endl;
+            return;
+        }
+        size_t totalReceived = 0;
+        const size_t bufferSize = 4096;
+        char buffer[bufferSize];
+
+        while (totalReceived < filesize)
+        {
+            ssize_t bytesReceived = recv(clientSocket, buffer, bufferSize, 0);
+            if (bytesReceived <= 0)
+            {
+                std::cerr << "接收失败或连接关闭" << std::endl;
+                break;
+            }
+            outfile.write(buffer, bytesReceived);
+            totalReceived += bytesReceived;
+        }
+
+        outfile.close();
+
+        // 验证 MD5（选做）
+        std::string computedMd5 = calculateMD5("uploads/" + filename);
+        if (computedMd5 == filemd5)
+        {
+            std::cout << "文件接收成功，校验通过。" << std::endl;
+            std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
+            std::unique_ptr<sql::PreparedStatement> insertStmt(
+                conn->prepareStatement("INSERT INTO files(filename, username,filesize,uploaded_size,md5,status) VALUES (?, ? ,?)"));
+            insertStmt->setString(1, filename);
+            insertStmt->setString(2, username);
+            insertStmt->setBigInt(3, filesizeStr);
+            insertStmt->setString(4, filesizeStr);
+            insertStmt->setString(5, filemd5);
+            insertStmt->setString(6, "completed");
+            insertStmt->execute();
+        }
+        else
+        {
+            std::cerr << "文件校验失败！" << std::endl;
+            std::remove(("uploads/" + filename).c_str());
+        }
+        break;
+    }
     default:
         LOG_WARN("Unknown message type received.");
         break; // 默认情况，处理未知类型的消息
@@ -196,7 +255,8 @@ MessageType handleClientMessageTask::stringToMessageType(const std::string &type
         {"exit", MessageType::EXIT},
         {"login", MessageType::LOGIN},
         {"text", MessageType::TEXT},
-        {"register", MessageType::REGISTER}};
+        {"register", MessageType::REGISTER},
+        {"upload", MessageType::UPLOAD}};
 
     auto it = typeMap.find(typeStr);
     return (it != typeMap.end()) ? it->second : MessageType::UNKNOWN;

@@ -2,10 +2,14 @@
 #include <iostream>
 #include <unistd.h>
 #include <sys/socket.h>
-#include <sys/epoll.h> 
-#include "../log/log.h" 
+#include <sys/epoll.h>
+#include "../log/log.h"
 #include "../json/jsonhelper.h"
 #include <vector>
+#include <fstream>
+#include <filesystem>
+#include "../openssl/hash_util.h"
+#include "../tools/tools.h"
 // 构造
 Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false), isLogin(false)
 {
@@ -78,15 +82,18 @@ void Client::connectToServer()
             else if (events[i].data.fd == STDIN_FILENO)
             {
                 std::string message;
-                do
-                {
-                    std::getline(std::cin, message);
-                    std::cout << "请输入信息：";
-                } while (message.empty());
+                std::getline(std::cin, message);
                 // 安全退出
                 if (message == "exit")
                 {
                     exitNormal();
+                    continue;
+                }
+                // 上传
+                if (message.substr(0, 7) == "upload ")
+                {
+                    std::string filepath = message.substr(7);
+                    uploadFile(filepath);
                     continue;
                 }
                 sendMessage(message);
@@ -98,17 +105,21 @@ void Client::connectToServer()
 // 发送文字消息
 void Client::sendMessage(const std::string &message)
 {
-    json j = JsonHelper::make_json("text", username, message);
-    // 发送消息
-    std::string data = j.dump();
-    size_t len = data.size();
-    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
-    if (bytesSent < 0)
+    if (!message.empty())
     {
-        handleError("send failed");
-        return;
+        json j = JsonHelper::make_json("text", username, message);
+        // 发送消息
+        std::string data = j.dump();
+        size_t len = data.size();
+        ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
+        if (bytesSent < 0)
+        {
+            handleError("send failed");
+            return;
+        }
+        LOG_INFO("Sent message: " + data);
     }
-    LOG_INFO("Sent message: " + data);
+    std::cout << "请输入信息：";
 }
 
 // 接收消息 登录成功之后的
@@ -297,4 +308,56 @@ void Client::ui()
                       << std::endl;
         }
     }
+}
+
+void Client::uploadFile(const std::string &filepath)
+{
+    std::ifstream file(filepath, std::ios::binary);
+    if (!file.is_open())
+    {
+        std::cout << "文件地址错误,无法打开" << std::endl;
+        return;
+    }
+    std::string filename = getFilenameFromPath(filepath);
+    std::string filemd5 = calculateMD5(filepath);
+    // 移动到末尾
+    file.seekg(0, std::ios::end);
+    // 计算大小
+    size_t filesize = file.tellg();
+    // 移动到头部
+    file.seekg(0);
+    json fileInfo;
+    fileInfo["filename"] = filename;
+    fileInfo["size"] = filesize;
+    fileInfo["md5"] = filemd5;
+    json j = JsonHelper::make_json("upload", username, fileInfo.dump());
+    std::string data = j.dump();
+    size_t len = data.size();
+    ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
+    if (bytesSent < 0)
+    {
+        std::cout << "发送文件信息失败" << std::endl;
+        file.close();
+        return;
+    }
+    std::cout << "文件信息已发送，开始传输文件..." << std::endl;
+    // 分片传输
+    const size_t bufferSize = 4096;
+    char buffer[bufferSize] = {0};
+    while (!file.eof())
+    {
+        file.read(buffer, bufferSize);
+        std::streamsize bytesRead = file.gcount();
+        if (bytesRead > 0)
+        {
+            ssize_t sent = send(clientSocket, buffer, bytesRead, 0);
+            if (sent <= 0)
+            {
+                std::cout << "发送文件内容失败" << std::endl;
+                break;
+            }
+        }
+    }
+    file.close();
+    std::cout << "文件发送完成" << std::endl;
 }
