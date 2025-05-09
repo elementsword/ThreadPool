@@ -32,6 +32,7 @@ void removeTask::execute()
             updatePstmt->setString(1, removeClient.username);
             updatePstmt->execute();
             LOG_INFO("Removed client fd: " + std::to_string(fd));
+            LOG_INFO("Set is_logged_in = 0 for user: " + removeClient.username);
         }
         else
         {

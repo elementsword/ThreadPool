@@ -88,6 +88,7 @@ void handleClientMessageTask::execute()
                     if (it != clients.end())
                     {
                         it->second.status = "login";
+                        it->second.username =username;
                     }
                 }
                 else
