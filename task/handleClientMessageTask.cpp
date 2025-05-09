@@ -2,8 +2,8 @@
 #include "../openssl/hash_util.h"
 #include <fstream>
 // 构造函数
-handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients,std::atomic<int> &personNumber)
-    : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients),personNumber(personNumber)
+handleClientMessageTask::handleClientMessageTask(int clientSocket, mysqlPool *sqlPool, int epollFd, int eventFd, std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients, std::atomic<int> &personNumber)
+    : clientSocket(clientSocket), sqlPool(sqlPool), epollFd(epollFd), eventFd(eventFd), clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients), personNumber(personNumber)
 {
 }
 
@@ -25,12 +25,12 @@ void handleClientMessageTask::execute()
     }
 
     json j = JsonHelper::from_buffer(buffer, bytesRead);
-    MessageType type = stringToMessageType(JsonHelper::get_X(j, "type"));
+    MessageType type = stringToMessageType(JsonHelper::get_X<std::string>(j, "type"));
     switch (type)
     {
     case MessageType::EXIT:
     {
-        std::string username = JsonHelper::get_X(j, "username");
+        std::string username = JsonHelper::get_X<std::string>(j, "username");
         std::string reply = JsonHelper::make_json("exit", "server").dump();
         send(clientSocket, reply.c_str(), reply.size(), 0);
         std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
@@ -43,8 +43,8 @@ void handleClientMessageTask::execute()
     }
     case MessageType::LOGIN:
     {
-        std::string username = JsonHelper::get_X(j, "username");
-        std::string password = JsonHelper::get_X(j, "msg");
+        std::string username = JsonHelper::get_X<std::string>(j, "username");
+        std::string password = JsonHelper::get_X<std::string>(j, "msg");
 
         std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
         // 创建 prepared statement
@@ -88,7 +88,7 @@ void handleClientMessageTask::execute()
                     if (it != clients.end())
                     {
                         it->second.status = "login";
-                        it->second.username =username;
+                        it->second.username = username;
                     }
                 }
                 else
@@ -124,8 +124,8 @@ void handleClientMessageTask::execute()
     }
     case MessageType::REGISTER:
     {
-        std::string username = JsonHelper::get_X(j, "username");
-        std::string password = JsonHelper::get_X(j, "msg");
+        std::string username = JsonHelper::get_X<std::string>(j, "username");
+        std::string password = JsonHelper::get_X<std::string>(j, "msg");
 
         std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
 
@@ -170,13 +170,13 @@ void handleClientMessageTask::execute()
 
     case MessageType::UPLOAD:
     {
-        std::string username = JsonHelper::get_X(j, "username");
-        std::string fileInfo = JsonHelper::get_X(j, "msg");
+        std::string username = JsonHelper::get_X<std::string>(j, "username");
+        std::string fileInfo = JsonHelper::get_X<std::string>(j, "msg");
         json f = json::parse(fileInfo);
-        std::string filename = JsonHelper::get_X(f, "filename");
-        std::string filesizeStr = JsonHelper::get_X(f, "filesize");
-        std::string filemd5 = JsonHelper::get_X(f, "md5");
-        size_t filesize = std::stoi(filesizeStr);
+        std::cout << f << std::endl;
+        std::string filename = JsonHelper::get_X<std::string>(f, "filename");
+        size_t filesize = JsonHelper::get_X<int>(f, "filesize");
+        std::string filemd5 = JsonHelper::get_X<std::string>(f, "md5");
         std::ofstream outfile("uploads/" + filename, std::ios::binary);
         if (!outfile.is_open())
         {
@@ -208,11 +208,11 @@ void handleClientMessageTask::execute()
             std::cout << "文件接收成功，校验通过。" << std::endl;
             std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
             std::unique_ptr<sql::PreparedStatement> insertStmt(
-                conn->prepareStatement("INSERT INTO files(filename, username,filesize,uploaded_size,md5,status) VALUES (?, ? ,?)"));
+                conn->prepareStatement("INSERT INTO files(filename, username,filesize,uploaded_size,md5,status) VALUES (?, ? ,?,?,?,?)"));
             insertStmt->setString(1, filename);
             insertStmt->setString(2, username);
-            insertStmt->setBigInt(3, filesizeStr);
-            insertStmt->setString(4, filesizeStr);
+            insertStmt->setBigInt(3, std::to_string(filesize));
+            insertStmt->setString(4, std::to_string(filesize));
             insertStmt->setString(5, filemd5);
             insertStmt->setString(6, "completed");
             insertStmt->execute();

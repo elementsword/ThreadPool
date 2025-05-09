@@ -25,3 +25,95 @@
 2025-05-09 11:34:31,694 [INFO] client: exit
 2025-05-09 11:34:31,700 [INFO] Removed client fd: 17
 2025-05-09 11:34:31,701 [INFO] Set is_logged_in = 0 for user: liuyi
+2025-05-09 11:35:26,869 [INFO] ThreadPool created with size: 4
+2025-05-09 11:35:26,927 [INFO] Server started on port 8080
+2025-05-09 11:35:29,794 [INFO] New client connected: 17
+2025-05-09 11:35:35,586 [INFO] Login success!
+2025-05-09 11:35:57,063 [ERROR] 接收消息失败 
+
+2025-05-09 11:37:42,920 [INFO] ThreadPool created with size: 4
+2025-05-09 11:37:42,979 [INFO] Server started on port 8080
+2025-05-09 11:37:45,275 [INFO] New client connected: 17
+2025-05-09 11:37:52,959 [INFO] Already Login!
+2025-05-09 11:38:01,510 [INFO] Register success!
+2025-05-09 11:38:06,114 [INFO] Login success!
+2025-05-09 11:39:41,330 [ERROR] 接收消息失败 
+
+2025-05-09 11:39:53,421 [INFO] ThreadPool created with size: 4
+2025-05-09 11:39:53,473 [INFO] Server started on port 8080
+2025-05-09 11:39:55,980 [INFO] New client connected: 17
+2025-05-09 11:40:00,648 [INFO] Register success!
+2025-05-09 11:40:05,944 [INFO] Login success!
+2025-05-09 11:40:19,750 [ERROR] 接收消息失败 
+
+2025-05-09 11:40:41,796 [INFO] ThreadPool created with size: 4
+2025-05-09 11:40:41,855 [INFO] Server started on port 8080
+2025-05-09 11:40:44,076 [INFO] New client connected: 17
+2025-05-09 11:40:48,337 [INFO] Register success!
+2025-05-09 11:40:51,952 [INFO] Login success!
+2025-05-09 11:44:27,775 [ERROR] 接收消息失败 
+
+2025-05-09 11:45:51,732 [INFO] ThreadPool created with size: 4
+2025-05-09 11:45:51,791 [INFO] Server started on port 8080
+2025-05-09 11:46:24,588 [INFO] New client connected: 17
+2025-05-09 11:46:29,858 [INFO] Register success!
+2025-05-09 11:46:33,236 [INFO] Login success!
+2025-05-09 11:46:52,021 [ERROR] 接收消息失败 
+
+2025-05-09 13:35:22,759 [INFO] ThreadPool created with size: 4
+2025-05-09 13:35:22,820 [INFO] Server started on port 8080
+2025-05-09 13:35:25,248 [INFO] New client connected: 17
+2025-05-09 13:35:31,303 [INFO] Login failed: wrong username.
+2025-05-09 13:35:33,988 [INFO] Register success!
+2025-05-09 13:35:35,692 [INFO] Login success!
+2025-05-09 13:42:50,069 [ERROR] 接收消息失败 
+
+2025-05-09 13:50:10,411 [INFO] ThreadPool created with size: 4
+2025-05-09 13:50:10,469 [INFO] Server started on port 8080
+2025-05-09 13:50:12,986 [INFO] New client connected: 17
+2025-05-09 13:50:17,857 [INFO] Register success!
+2025-05-09 13:50:22,041 [INFO] Login success!
+2025-05-09 13:51:06,433 [ERROR] 接收消息失败 
+
+2025-05-09 13:51:10,290 [INFO] ThreadPool created with size: 4
+2025-05-09 13:51:10,345 [INFO] Server started on port 8080
+2025-05-09 13:51:12,962 [INFO] New client connected: 17
+2025-05-09 13:51:18,863 [INFO] Already Login!
+2025-05-09 13:51:20,966 [INFO] Register success!
+2025-05-09 13:51:22,468 [INFO] Login success!
+2025-05-09 13:51:33,749 [ERROR] 接收消息失败 
+
+2025-05-09 13:51:49,866 [INFO] ThreadPool created with size: 4
+2025-05-09 13:51:49,924 [INFO] Server started on port 8080
+2025-05-09 13:52:02,217 [INFO] New client connected: 17
+2025-05-09 13:52:04,478 [INFO] Register success!
+2025-05-09 13:52:06,195 [INFO] Login success!
+2025-05-09 13:54:37,763 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-09 13:55:16,263 [INFO] ThreadPool created with size: 4
+2025-05-09 13:55:16,338 [INFO] Server started on port 8080
+2025-05-09 13:55:18,936 [INFO] New client connected: 17
+2025-05-09 13:55:23,938 [INFO] Register success!
+2025-05-09 13:55:26,425 [INFO] Login success!
+2025-05-09 13:57:42,486 [INFO] Received message from client 17
+2025-05-09 13:57:42,486 [INFO] Sent message: {"msg":"\t","type":"text","username":"zzz"}
+2025-05-09 13:57:44,724 [INFO] client: exit
+2025-05-09 13:57:44,724 [ERROR] read failed
+2025-05-09 13:57:44,725 [INFO] Removed client fd: 17
+2025-05-09 13:57:44,725 [INFO] Set is_logged_in = 0 for user: zzz
+2025-05-09 13:57:44,725 [INFO] client: exit
+2025-05-09 13:57:44,725 [WARN] Attempted to remove unknown client fd: 17
+2025-05-09 13:59:11,430 [INFO] ThreadPool created with size: 4
+2025-05-09 13:59:11,489 [INFO] Server started on port 8080
+2025-05-09 13:59:16,173 [INFO] New client connected: 17
+2025-05-09 13:59:19,819 [ERROR] read failed
+2025-05-09 13:59:19,819 [INFO] client: exit
+2025-05-09 13:59:19,820 [INFO] Removed client fd: 17
+2025-05-09 13:59:19,821 [INFO] Set is_logged_in = 0 for user: 
+2025-05-09 14:02:31,416 [INFO] New client connected: 17
+2025-05-09 14:02:35,331 [INFO] Login failed: wrong password.
+2025-05-09 14:02:40,768 [INFO] Login success!
+2025-05-09 14:02:43,228 [ERROR] read failed
+2025-05-09 14:02:43,228 [INFO] client: exit
+2025-05-09 14:02:43,258 [INFO] Removed client fd: 17
+2025-05-09 14:02:43,258 [INFO] Set is_logged_in = 0 for user: zzz
