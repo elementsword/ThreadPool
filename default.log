@@ -117,3 +117,19 @@
 2025-05-09 14:02:43,228 [INFO] client: exit
 2025-05-09 14:02:43,258 [INFO] Removed client fd: 17
 2025-05-09 14:02:43,258 [INFO] Set is_logged_in = 0 for user: zzz
+2025-05-09 15:05:09,061 [INFO] ThreadPool created with size: 4
+2025-05-09 15:05:09,119 [INFO] Server started on port 8080
+2025-05-09 15:05:16,868 [INFO] New client connected: 17
+2025-05-09 15:05:21,485 [INFO] Login failed: wrong username.
+2025-05-09 15:05:26,019 [INFO] Login success!
+2025-05-09 15:07:38,193 [ERROR] 服务器已关闭连接，客户端即将退出。
+
+2025-05-09 15:28:46,630 [INFO] ThreadPool created with size: 4
+2025-05-09 15:28:46,706 [INFO] Server started on port 8080
+2025-05-09 15:28:48,696 [INFO] New client connected: 17
+2025-05-09 15:28:54,332 [INFO] Login failed: wrong username.
+2025-05-09 15:29:02,031 [INFO] Register failed: user already exists.
+2025-05-09 15:29:09,651 [INFO] Register success!
+2025-05-09 15:29:13,289 [INFO] Login success!
+2025-05-09 15:29:36,070 [INFO] Sent message: {"msg":"nice wanc","type":"text","username":"lk"}
+2025-05-09 15:29:37,339 [INFO] Sent message: {"msg":"nice","type":"text","username":"lk"}

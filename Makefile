@@ -8,7 +8,7 @@ CXXFLAGS = -Wall -Wextra -std=c++11 -g
 TARGET = app
 
 # 源文件和头文件路径
-ClientSRCDIR = mainClient Client log json tools openssl
+ClientSRCDIR = mainClient Client log json tools openssl mysqlPool
 ServerSRCDIR = mainServer log task threadpool Server json mysqlPool clientInfo openssl tools
 INCLUDE = -Ilog 
 
