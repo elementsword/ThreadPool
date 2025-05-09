@@ -34,7 +34,7 @@ private:
     std::unordered_map<int, clientInfo> &clients; // 客户端列表
     std::shared_ptr<std::mutex> brokenClientsMutex;         // 保护queue队列
     std::queue<int> &brokenClients;          //断开的队列
-    std::atomic<int> personNumber;           //人数
+    std::atomic<int> &personNumber;           //人数
     void notifyClientExit(int clientSocket,std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int>& brokenClients, int eventFd);
     MessageType stringToMessageType(const std::string& typeStr);       //str 转换 MessageType
 };
