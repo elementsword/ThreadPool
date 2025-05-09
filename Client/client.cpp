@@ -10,8 +10,9 @@
 #include <filesystem>
 #include "../openssl/hash_util.h"
 #include "../tools/tools.h"
+
 // 构造
-Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false), isLogin(false)
+Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false), sqlPool(mysqlPool::getInstance())
 {
     // 创建套接字
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -131,13 +132,11 @@ void Client::receiveMessage()
     {
         // 服务器关闭连接
         handleError("服务器已关闭连接，客户端即将退出。\n");
-        closeConnection(); // 设置 isConnected = false，主循环会自动退出
         return;
     }
     else if (bytesReceived < 0)
     {
         handleError("接收消息失败 \n");
-        closeConnection();
         return;
     }
 
@@ -193,7 +192,6 @@ void Client::exitNormal()
 
 bool Client ::login()
 {
-
     // 获取用户输入的用户名和密码
     std::cout << "Enter username: ";
     std::getline(std::cin, username);
@@ -340,25 +338,41 @@ void Client::uploadFile(const std::string &filepath)
         file.close();
         return;
     }
-    std::cout << "文件信息已发送，开始传输文件..." << std::endl;
-    // 分片传输
     const size_t bufferSize = 4096;
     char buffer[bufferSize] = {0};
-    while (!file.eof())
+    if (recv(clientSocket, buffer, bufferSize, 0) < 0)
     {
-        file.read(buffer, bufferSize);
-        std::streamsize bytesRead = file.gcount();
-        if (bytesRead > 0)
+        handleError("断开了...");
+        return;
+    }
+    json a = JsonHelper::from_buffer(buffer, bufferSize);
+    if (JsonHelper::get_X<std::string>(a, "msg") == "exists")
+    {
+        file.close();
+        std::cout << "急速秒传" << std::endl;
+    }
+    else
+    {
+        std::cout << "文件信息已发送，开始传输文件..." << std::endl;
+        // 分片传输
+
+        buffer[bufferSize] = {0};
+        while (!file.eof())
         {
-            ssize_t sent = send(clientSocket, buffer, bytesRead, 0);
-            if (sent <= 0)
+            file.read(buffer, bufferSize);
+            std::streamsize bytesRead = file.gcount();
+            if (bytesRead > 0)
             {
-                std::cout << "发送文件内容失败" << std::endl;
-                break;
+                ssize_t sent = send(clientSocket, buffer, bytesRead, 0);
+                if (sent <= 0)
+                {
+                    std::cout << "发送文件内容失败" << std::endl;
+                    break;
+                }
             }
         }
+        file.close();
+        std::cout << "文件发送完成" << std::endl;
     }
-    file.close();
-    std::cout << "文件发送完成" << std::endl;
     std::cout << "请输入信息：";
 }
