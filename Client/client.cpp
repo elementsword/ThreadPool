@@ -328,7 +328,7 @@ void Client::uploadFile(const std::string &filepath)
     file.seekg(0);
     json fileInfo;
     fileInfo["filename"] = filename;
-    fileInfo["size"] = filesize;
+    fileInfo["filesize"] = filesize;
     fileInfo["md5"] = filemd5;
     json j = JsonHelper::make_json("upload", username, fileInfo.dump());
     std::string data = j.dump();
@@ -360,4 +360,5 @@ void Client::uploadFile(const std::string &filepath)
     }
     file.close();
     std::cout << "文件发送完成" << std::endl;
+    std::cout << "请输入信息：";
 }
