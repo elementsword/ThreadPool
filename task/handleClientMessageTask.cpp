@@ -170,32 +170,42 @@ void handleClientMessageTask::execute()
 
     case MessageType::UPLOAD:
     {
-        std::string username = JsonHelper::get_X<std::string>(j, "username");
-        std::string fileInfo = JsonHelper::get_X<std::string>(j, "msg");
-        json f = json::parse(fileInfo);
+        fileInfo file;
+        file.username = JsonHelper::get_X<std::string>(j, "username");
+        std::string msg = JsonHelper::get_X<std::string>(j, "msg");
+        json f = json::parse(msg);
         std::cout << f << std::endl;
-        std::string filename = JsonHelper::get_X<std::string>(f, "filename");
-        size_t filesize = JsonHelper::get_X<int>(f, "filesize");
-        std::string filemd5 = JsonHelper::get_X<std::string>(f, "md5");
+        file.filename = JsonHelper::get_X<std::string>(f, "filename");
+        file.filesize = JsonHelper::get_X<size_t>(f, "filesize");
+        file.md5 = JsonHelper::get_X<std::string>(f, "md5");
         // 秒传判断
         std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();
         std::unique_ptr<sql::PreparedStatement> checkStmt(
-            conn->prepareStatement("SELECT id FROM files WHERE md5 = ? AND filesize = ? AND status = 'completed' LIMIT 1"));
-        checkStmt->setString(1, filemd5);
-        checkStmt->setInt64(2, filesize);
+            conn->prepareStatement("SELECT id,uploaded_size,status,filename FROM files WHERE md5 = ? AND filesize = ? LIMIT 1"));
+        checkStmt->setString(1, file.md5);
+        checkStmt->setInt64(2, file.filesize);
         std::unique_ptr<sql::ResultSet> res(checkStmt->executeQuery());
         if (res->next())
         {
-            json j = JsonHelper::make_json("upload", "server", "exists");
-            std::string data = j.dump();
-            send(clientSocket, data.c_str(), data.length(), 0);
-            return; // 直接返回，不插入
+            file.uploaded_size = res->getUInt64("uploaded_size");
+            file.status = res->getString("status");
+            //急速秒传
+            if (file.status == "completed" && file.filesize == file.uploaded_size)
+            {
+                json fileInfoJson;
+                fileInfoJson =JsonHelper::to_json(file);
+                json j = JsonHelper::make_json("upload", "server", );
+                std::string data = j.dump();
+                send(clientSocket, data.c_str(), data.length(), 0);
+                return; // 直接返回，不插入
+            }
+            //断点续传
         }
         else
         {
             json j = JsonHelper::make_json("upload", "server", "not exists");
             send(clientSocket, j.dump().c_str(), j.dump().length(), 0);
-            std::ofstream outfile("uploads/" + filename, std::ios::binary);
+            std::ofstream outfile("uploads/" + file.filename, std::ios::binary);
             if (!outfile.is_open())
             {
                 std::cerr << "无法创建文件" << std::endl;
@@ -205,7 +215,7 @@ void handleClientMessageTask::execute()
             const size_t bufferSize = 4096;
             char buffer[bufferSize];
 
-            while (totalReceived < filesize)
+            while (totalReceived < file.filesize)
             {
                 ssize_t bytesReceived = recv(clientSocket, buffer, bufferSize, 0);
                 if (bytesReceived <= 0)
@@ -220,24 +230,25 @@ void handleClientMessageTask::execute()
             outfile.close();
 
             // 验证 MD5（选做）
-            std::string computedMd5 = calculateMD5("uploads/" + filename);
-            if (computedMd5 == filemd5)
+            std::string computedMd5 = calculateMD5("uploads/" + file.filename);
+            if (computedMd5 == file.md5)
             {
                 LOG_INFO("文件接收成功，校验通过。");
                 std::unique_ptr<sql::PreparedStatement> insertStmt(
                     conn->prepareStatement("INSERT INTO files(filename, username,filesize,uploaded_size,md5,status) VALUES (?, ? ,?,?,?,?)"));
-                insertStmt->setString(1, filename);
-                insertStmt->setString(2, username);
-                insertStmt->setBigInt(3, std::to_string(filesize));
-                insertStmt->setString(4, std::to_string(filesize));
-                insertStmt->setString(5, filemd5);
+                insertStmt->setString(1, file.filename);
+                insertStmt->setString(2, file.username);
+                insertStmt->setString(3, std::to_string(file.filesize));
+                insertStmt->setString(4, std::to_string(file.filesize));
+                insertStmt->setString(5, file.md5);
                 insertStmt->setString(6, "completed");
                 insertStmt->execute();
             }
             else
             {
                 std::cerr << "文件校验失败！" << std::endl;
-                std::remove(("uploads/" + filename).c_str());
+
+                std::remove(("uploads/" + file.filename).c_str());
             }
             break;
         }

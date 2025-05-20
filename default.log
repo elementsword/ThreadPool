@@ -133,3 +133,32 @@
 2025-05-09 15:29:13,289 [INFO] Login success!
 2025-05-09 15:29:36,070 [INFO] Sent message: {"msg":"nice wanc","type":"text","username":"lk"}
 2025-05-09 15:29:37,339 [INFO] Sent message: {"msg":"nice","type":"text","username":"lk"}
+2025-05-16 15:22:22,437 [INFO] ThreadPool created with size: 4
+2025-05-16 15:22:23,416 [INFO] Server started on port 8080
+2025-05-16 15:22:31,782 [INFO] New client connected: 17
+2025-05-16 15:22:37,220 [INFO] Register success!
+2025-05-16 15:22:41,646 [INFO] Login success!
+2025-05-16 15:22:44,870 [ERROR] read failed
+2025-05-16 15:22:44,871 [INFO] client: exit
+2025-05-16 15:22:44,876 [INFO] Removed client fd: 17
+2025-05-16 15:22:44,876 [INFO] Set is_logged_in = 0 for user: liuyi
+2025-05-16 15:22:46,280 [INFO] New client connected: 17
+2025-05-16 15:22:51,002 [INFO] Login success!
+2025-05-16 15:22:52,574 [ERROR] read failed
+2025-05-16 15:22:52,574 [INFO] client: exit
+2025-05-16 15:22:52,638 [INFO] Removed client fd: 17
+2025-05-16 15:22:52,638 [INFO] Set is_logged_in = 0 for user: liuyi
+2025-05-16 15:22:55,978 [INFO] New client connected: 17
+2025-05-16 15:23:00,817 [INFO] Login success!
+2025-05-16 15:23:01,908 [INFO] client: exit
+2025-05-16 15:23:01,908 [ERROR] read failed
+2025-05-16 15:23:01,927 [INFO] Removed client fd: 17
+2025-05-16 15:23:01,927 [INFO] Set is_logged_in = 0 for user: liuyi
+2025-05-16 15:23:01,927 [INFO] client: exit
+2025-05-16 15:23:01,927 [WARN] Attempted to remove unknown client fd: 17
+2025-05-16 15:23:03,692 [INFO] New client connected: 17
+2025-05-16 15:23:07,129 [INFO] Login success!
+2025-05-16 15:23:08,584 [ERROR] read failed
+2025-05-16 15:23:08,584 [INFO] client: exit
+2025-05-16 15:23:08,609 [INFO] Removed client fd: 17
+2025-05-16 15:23:08,609 [INFO] Set is_logged_in = 0 for user: liuyi

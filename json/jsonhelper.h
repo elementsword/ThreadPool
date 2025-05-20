@@ -13,5 +13,18 @@ public:
     {
         return j.at(X).get<T>();
     }
+    // 新增：任意结构体转 json
+    template <typename T>
+    static json to_json(const T &obj)
+    {
+        return json(obj); // 这里会调用自定义的 to_json 函数
+    }
+
+    // 新增：json 转任意结构体
+    template <typename T>
+    static T from_json(const json &j)
+    {
+        return j.get<T>(); // 这里会调用自定义的 from_json 函数
+    }
 };
 #endif // __JSON_H__

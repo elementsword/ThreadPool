@@ -20,7 +20,7 @@
 #include "../task/handleClientMessageTask.h"
 #include "../task/removeTask.h"
 #include <sys/eventfd.h>
-#include "../clientInfo/clientInfo.h"
+#include "../Info/clientInfo.h"
 #define eventsSize 1024
 
 
