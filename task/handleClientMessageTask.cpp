@@ -189,21 +189,53 @@ void handleClientMessageTask::execute()
         {
             file.uploaded_size = res->getUInt64("uploaded_size");
             file.status = res->getString("status");
-            //急速秒传
+            // 急速秒传
             if (file.status == "completed" && file.filesize == file.uploaded_size)
             {
-                json fileInfoJson;
-                fileInfoJson =JsonHelper::to_json(file);
-                json j = JsonHelper::make_json("upload", "server", );
+                json fileInfoJson = JsonHelper::to_json(file);
+                json j = JsonHelper::make_json("upload", "server", (fileInfoJson.dump()));
                 std::string data = j.dump();
                 send(clientSocket, data.c_str(), data.length(), 0);
                 return; // 直接返回，不插入
             }
-            //断点续传
+            // 断点续传 //待完成
+            else
+            {
+                json fileInfoJson = JsonHelper::to_json(file);
+                json j = JsonHelper::make_json("upload", "server", (fileInfoJson.dump()));
+                std::string data = j.dump();
+                send(clientSocket, data.c_str(), data.length(), 0);
+                std::ofstream outfile("uploads/" + file.filename, std::ios::binary);
+                if (!outfile.is_open())
+                {
+                    std::cerr << "无法创建文件" << std::endl;
+                    return;
+                }
+                size_t totalReceived = 0;
+                const size_t bufferSize = 4096;
+                char buffer[bufferSize];
+
+                while (totalReceived < file.filesize)
+                {
+                    ssize_t bytesReceived = recv(clientSocket, buffer, bufferSize, 0);
+                    if (bytesReceived <= 0)
+                    {
+                        std::cerr << "接收失败或连接关闭" << std::endl;
+                        break;
+                    }
+                    outfile.write(buffer, bytesReceived);
+                    totalReceived += bytesReceived;
+                }
+
+                outfile.close();
+            }
         }
+        // 完整传输 待完成
         else
         {
-            json j = JsonHelper::make_json("upload", "server", "not exists");
+            file.status = "not exist";
+            json fileInfoJson = JsonHelper::to_json(file);
+            json j = JsonHelper::make_json("upload", "server", fileInfoJson.dump());
             send(clientSocket, j.dump().c_str(), j.dump().length(), 0);
             std::ofstream outfile("uploads/" + file.filename, std::ios::binary);
             if (!outfile.is_open())

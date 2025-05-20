@@ -10,7 +10,7 @@
 #include <filesystem>
 #include "../openssl/hash_util.h"
 #include "../tools/tools.h"
-
+#include "../Info/fileInfo.h"
 // 构造
 Client::Client(int port, const std::string &serverIp) : clientSocket(-1), serverIp(serverIp), port(port), isConnected(false), sqlPool(mysqlPool::getInstance())
 {
@@ -324,11 +324,11 @@ void Client::uploadFile(const std::string &filepath)
     size_t filesize = file.tellg();
     // 移动到头部
     file.seekg(0);
-    json fileInfo;
-    fileInfo["filename"] = filename;
-    fileInfo["filesize"] = filesize;
-    fileInfo["md5"] = filemd5;
-    json j = JsonHelper::make_json("upload", username, fileInfo.dump());
+    json fileinfo;
+    fileinfo["filename"] = filename;
+    fileinfo["filesize"] = filesize;
+    fileinfo["md5"] = filemd5;
+    json j = JsonHelper::make_json("upload", username, fileinfo.dump());
     std::string data = j.dump();
     size_t len = data.size();
     ssize_t bytesSent = send(clientSocket, data.c_str(), len, 0);
@@ -345,11 +345,36 @@ void Client::uploadFile(const std::string &filepath)
         handleError("断开了...");
         return;
     }
-    json a = JsonHelper::from_buffer(buffer, bufferSize);
-    if (JsonHelper::get_X<std::string>(a, "msg") == "exists")
+    fileInfo recvFileInfo = json::parse(JsonHelper::get_X<std::string>(JsonHelper::from_buffer(buffer, bufferSize), "msg"));
+    if (recvFileInfo.status == "completed")
     {
         file.close();
         std::cout << "急速秒传" << std::endl;
+    }
+    // 断点续传 //待完成
+    else if (recvFileInfo.status == "paused")
+    {
+        std::cout << "文件信息已发送，开始从中间传输文件..." << std::endl;
+        // 分片传输
+        buffer[bufferSize] = {0};
+        file.seekg(recvFileInfo.uploaded_size);
+        while (!file.eof())
+        {
+            file.read(buffer, bufferSize);
+            std::streamsize bytesRead = file.gcount();
+            if (bytesRead > 0)
+            {
+
+                ssize_t sent = send(clientSocket, buffer, bytesRead, 0);
+                if (sent <= 0)
+                {
+                    std::cout << "发送文件内容失败" << std::endl;
+                    break;
+                }
+            }
+        }
+        file.close();
+        std::cout << "文件发送完成" << std::endl;
     }
     else
     {
