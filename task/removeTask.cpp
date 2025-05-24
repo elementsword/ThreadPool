@@ -1,8 +1,8 @@
 #include "removeTask.h"
 
 // 构造函数
-removeTask::removeTask(std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients,std::atomic<int> &personNumber,mysqlPool *sqlPool)
-    : clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients),personNumber(personNumber),sqlPool(sqlPool)
+removeTask::removeTask(std::shared_ptr<std::mutex> clientsMutex, std::unordered_map<int, clientInfo> &clients, std::shared_ptr<std::mutex> brokenClientsMutex, std::queue<int> &brokenClients, std::atomic<int> &personNumber, mysqlPool *sqlPool)
+    : clientsMutex(clientsMutex), clients(clients), brokenClientsMutex(brokenClientsMutex), brokenClients(brokenClients), personNumber(personNumber), sqlPool(sqlPool)
 {
 }
 
@@ -17,13 +17,14 @@ void removeTask::execute()
     std::lock_guard<std::mutex> brokenLock(*brokenClientsMutex); // 双锁
     while (!brokenClients.empty())
     {
+        LOG_INFO("队列长度：" + std::to_string(brokenClients.size()));
         int fd = brokenClients.front();
         brokenClients.pop();
         // 从 clients 中删除该客户端
         auto it = clients.find(fd);
         if (it != clients.end())
         {
-            clientInfo removeClient=it->second;
+            clientInfo removeClient = it->second;
             clients.erase(it);
             personNumber.fetch_sub(1);
             std::shared_ptr<sql::Connection> conn = sqlPool->getConnection();

@@ -185,6 +185,7 @@ void handleClientMessageTask::execute()
         checkStmt->setString(1, file.md5);
         checkStmt->setInt64(2, file.filesize);
         std::unique_ptr<sql::ResultSet> res(checkStmt->executeQuery());
+        size_t totalReceived = 0;
         if (res->next())
         {
             file.uploaded_size = res->getUInt64("uploaded_size");
@@ -199,38 +200,48 @@ void handleClientMessageTask::execute()
                 return; // 直接返回，不插入
             }
             // 断点续传 //待完成
-            else
+            else if (file.status == "uploading" && file.filesize > file.uploaded_size)
             {
                 json fileInfoJson = JsonHelper::to_json(file);
                 json j = JsonHelper::make_json("upload", "server", (fileInfoJson.dump()));
                 std::string data = j.dump();
                 send(clientSocket, data.c_str(), data.length(), 0);
-                std::ofstream outfile("uploads/" + file.filename, std::ios::binary);
+                // 打开文件
+                std::fstream outfile("uploads/" + file.filename, std::ios::binary | std::ios::in | std::ios::out);
                 if (!outfile.is_open())
                 {
                     std::cerr << "无法创建文件" << std::endl;
                     return;
                 }
-                size_t totalReceived = 0;
+                outfile.seekg(file.uploaded_size);
+                totalReceived = file.uploaded_size;
                 const size_t bufferSize = 4096;
                 char buffer[bufferSize];
-
                 while (totalReceived < file.filesize)
                 {
                     ssize_t bytesReceived = recv(clientSocket, buffer, bufferSize, 0);
                     if (bytesReceived <= 0)
                     {
                         std::cerr << "接收失败或连接关闭" << std::endl;
-                        break;
+                        notifyClientExit(clientSocket, brokenClientsMutex, brokenClients, eventFd);
+                        return;
                     }
                     outfile.write(buffer, bytesReceived);
                     totalReceived += bytesReceived;
+                    file.uploaded_size = totalReceived;
+                    // 更新
+                    std::unique_ptr<sql::PreparedStatement> insertStmt(
+                        conn->prepareStatement("UPDATE files SET uploaded_size=? WHERE filename=? AND username=?"));
+                    insertStmt->setUInt64(1, static_cast<uint64_t>(totalReceived));
+                    insertStmt->setString(2, (file.filename));
+                    insertStmt->setString(3, (file.username));
+                    insertStmt->execute();
                 }
 
                 outfile.close();
             }
         }
-        // 完整传输 待完成
+        // 完整传输
         else
         {
             file.status = "not exist";
@@ -243,47 +254,75 @@ void handleClientMessageTask::execute()
                 std::cerr << "无法创建文件" << std::endl;
                 return;
             }
-            size_t totalReceived = 0;
+            totalReceived = 0;
             const size_t bufferSize = 4096;
             char buffer[bufferSize];
-
+            // 初始化
+            std::unique_ptr<sql::PreparedStatement> insertStmt(
+                conn->prepareStatement("INSERT INTO files(filename, username,filesize,uploaded_size,md5,status) VALUES (?, ? ,?,?,?,?)"));
+            insertStmt->setString(1, file.filename);
+            insertStmt->setString(2, file.username);
+            insertStmt->setUInt64(3, static_cast<uint64_t>(file.filesize));
+            insertStmt->setUInt64(4, static_cast<uint64_t>(file.uploaded_size));
+            insertStmt->setString(5, file.md5);
+            insertStmt->setString(6, "uploading");
+            insertStmt->execute();
             while (totalReceived < file.filesize)
             {
                 ssize_t bytesReceived = recv(clientSocket, buffer, bufferSize, 0);
                 if (bytesReceived <= 0)
                 {
                     std::cerr << "接收失败或连接关闭" << std::endl;
-                    break;
+                    notifyClientExit(clientSocket, brokenClientsMutex, brokenClients, eventFd);
+                    return;
                 }
                 outfile.write(buffer, bytesReceived);
                 totalReceived += bytesReceived;
+                file.uploaded_size = totalReceived;
+                // 初始化
+                std::unique_ptr<sql::PreparedStatement> insertStmt(
+                    conn->prepareStatement("UPDATE files SET uploaded_size=? WHERE filename=? AND username=?"));
+                insertStmt->setUInt64(1, static_cast<uint64_t>(totalReceived));
+                insertStmt->setString(2, (file.filename));
+                insertStmt->setString(3, (file.username));
+                insertStmt->execute();
             }
 
             outfile.close();
-
+        }
+        if (file.uploaded_size == file.filesize)
+        {
             // 验证 MD5（选做）
             std::string computedMd5 = calculateMD5("uploads/" + file.filename);
             if (computedMd5 == file.md5)
             {
                 LOG_INFO("文件接收成功，校验通过。");
                 std::unique_ptr<sql::PreparedStatement> insertStmt(
-                    conn->prepareStatement("INSERT INTO files(filename, username,filesize,uploaded_size,md5,status) VALUES (?, ? ,?,?,?,?)"));
-                insertStmt->setString(1, file.filename);
-                insertStmt->setString(2, file.username);
-                insertStmt->setString(3, std::to_string(file.filesize));
-                insertStmt->setString(4, std::to_string(file.filesize));
-                insertStmt->setString(5, file.md5);
-                insertStmt->setString(6, "completed");
+                    conn->prepareStatement("UPDATE files SET status=? WHERE md5=? AND filename=?"));
+                insertStmt->setString(1, "completed");
+                insertStmt->setString(2, file.md5);
+                insertStmt->setString(3, (file.filename));
                 insertStmt->execute();
             }
             else
             {
                 std::cerr << "文件校验失败！" << std::endl;
-
                 std::remove(("uploads/" + file.filename).c_str());
             }
             break;
         }
+        // 未传完
+        // else
+        // {
+        //     LOG_INFO("文件传输中断了,未传完。");
+        //     std::unique_ptr<sql::PreparedStatement> insertStmt(
+        //         conn->prepareStatement("UPDATE files SET status=? WHERE md5=? AND filename=?"));
+        //     insertStmt->setString(1, "");
+        //     insertStmt->setString(2, file.md5);
+        //     insertStmt->setString(3, (file.filename));
+        //     insertStmt->execute();
+        // }
+        break;
     }
     default:
         LOG_WARN("Unknown message type received.");

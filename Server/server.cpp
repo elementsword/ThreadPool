@@ -79,6 +79,7 @@ void Server::start()
     personNumber = 0;
     while (true)
     {
+        LOG_INFO("新的任务");
         // 等待事件发生
         struct epoll_event events[eventsSize];
         int numEvents = epoll_wait(epollFd, events, 10, 5000);
@@ -104,6 +105,7 @@ void Server::start()
             // eventFd收到信息 删除Client
             else if (events[i].data.fd == eventFd)
             {
+                LOG_INFO("要删除了");
                 uint64_t value;
                 read(eventFd, &value, sizeof(value)); // 重要：清除事件
                 removeClient();
@@ -162,10 +164,10 @@ void Server::handleClientMessage(int clientSocket)
     Task *task = new handleClientMessageTask(clientSocket, sqlPool, epollFd, eventFd, clientsMutex, clients, brokenClientsMutex, brokenClients,personNumber);
     threadPool.submit(task);
 }
-
+//弃用
 void Server::noticeNumber()
 {
     // 创建任务并提交到线程池
-    Task *task = new noticeTask(personNumber, clients); // 示例任务
-    threadPool.submit(task);
+    //Task *task = new noticeTask(personNumber, clients); // 示例任务
+    //threadPool.submit(task);
 }

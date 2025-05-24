@@ -67,9 +67,10 @@ void Client::connectToServer()
         return;
     }
     std::cout << "epoll_ctl clientSocket and STDIN_FILENO success" << std::endl;
-    std::cout << "请输入信息：";
+    //std::cout << "请输入信息：";
     while (isConnected)
     {
+        std::cout << "请输入信息：";
         std::cout.flush();
         struct epoll_event events[2];
         // 等待事件发生 拷贝
@@ -120,7 +121,7 @@ void Client::sendMessage(const std::string &message)
         }
         LOG_INFO("Sent message: " + data);
     }
-    std::cout << "请输入信息：";
+    //std::cout << "请输入信息：";
 }
 
 // 接收消息 登录成功之后的
@@ -159,7 +160,7 @@ void Client::receiveMessage()
     {
         std::cerr << "未知类型: " << type << std::endl;
     }
-    std::cout << "请输入信息：";
+    //std::cout << "请输入信息：";
 }
 // 关闭连接
 void Client::closeConnection()
@@ -352,7 +353,7 @@ void Client::uploadFile(const std::string &filepath)
         std::cout << "急速秒传" << std::endl;
     }
     // 断点续传 //待完成
-    else if (recvFileInfo.status == "paused")
+    else if (recvFileInfo.status == "uploading")
     {
         std::cout << "文件信息已发送，开始从中间传输文件..." << std::endl;
         // 分片传输
@@ -399,5 +400,5 @@ void Client::uploadFile(const std::string &filepath)
         file.close();
         std::cout << "文件发送完成" << std::endl;
     }
-    std::cout << "请输入信息：";
+    //std::cout << "请输入信息：";
 }
