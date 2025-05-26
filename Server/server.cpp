@@ -60,7 +60,7 @@ void Server::start()
 {
     // 将监听套接字添加到 epoll 实例
     struct epoll_event event;
-    event.events = EPOLLIN;
+    event.events = EPOLLIN ;
     event.data.fd = serverSocket;
     if (epoll_ctl(epollFd, EPOLL_CTL_ADD, serverSocket, &event) < 0)
     {
