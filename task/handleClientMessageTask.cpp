@@ -233,12 +233,12 @@ void handleClientMessageTask::execute()
                         totalReceived += bytesReceived;
                         file.uploaded_size = totalReceived;
                         // 更新
-                        std::unique_ptr<sql::PreparedStatement> insertStmt(
-                            conn->prepareStatement("UPDATE files SET uploaded_size=? WHERE filename=? AND username=?"));
-                        insertStmt->setUInt64(1, static_cast<uint64_t>(totalReceived));
-                        insertStmt->setString(2, (file.filename));
-                        insertStmt->setString(3, (file.username));
-                        insertStmt->execute();
+                        // std::unique_ptr<sql::PreparedStatement> insertStmt(
+                        //     conn->prepareStatement("UPDATE files SET uploaded_size=? WHERE filename=? AND username=?"));
+                        // insertStmt->setUInt64(1, static_cast<uint64_t>(totalReceived));
+                        // insertStmt->setString(2, (file.filename));
+                        // insertStmt->setString(3, (file.username));
+                        // insertStmt->execute();
                     }
 
                     outfile.close();
@@ -286,17 +286,18 @@ void handleClientMessageTask::execute()
                     totalReceived += bytesReceived;
                     file.uploaded_size = totalReceived;
                     // 初始化
-                    std::unique_ptr<sql::PreparedStatement> insertStmt(
-                        conn->prepareStatement("UPDATE files SET uploaded_size=? WHERE filename=? AND username=?"));
-                    insertStmt->setUInt64(1, static_cast<uint64_t>(totalReceived));
-                    insertStmt->setString(2, (file.filename));
-                    insertStmt->setString(3, (file.username));
-                    insertStmt->execute();
+                    // std::unique_ptr<sql::PreparedStatement> insertStmt(
+                    //     conn->prepareStatement("UPDATE files SET uploaded_size=? WHERE filename=? AND username=?"));
+                    // insertStmt->setUInt64(1, static_cast<uint64_t>(totalReceived));
+                    // insertStmt->setString(2, (file.filename));
+                    // insertStmt->setString(3, (file.username));
+                    // insertStmt->execute();
                 }
 
                 outfile.close();
             }
         }
+        //最后数据库处理 
         if (file.uploaded_size == file.filesize)
         {
             // 验证 MD5（选做）
@@ -305,10 +306,11 @@ void handleClientMessageTask::execute()
             {
                 LOG_INFO("文件接收成功，校验通过。");
                 std::unique_ptr<sql::PreparedStatement> insertStmt(
-                    conn->prepareStatement("UPDATE files SET status=? WHERE md5=? AND filename=?"));
+                    conn->prepareStatement("UPDATE files SET status = ?,uploaded_size = ? WHERE md5 = ? AND filename=?"));
                 insertStmt->setString(1, "completed");
-                insertStmt->setString(2, file.md5);
-                insertStmt->setString(3, (file.filename));
+                insertStmt->setUInt64(2, static_cast<uint64_t>(file.uploaded_size));
+                insertStmt->setString(3, file.md5);
+                insertStmt->setString(4, (file.filename));
                 insertStmt->execute();
             }
             else
@@ -317,6 +319,17 @@ void handleClientMessageTask::execute()
                 std::remove((fileAddress).c_str());
             }
             break;
+        }
+        else
+        {
+            // 更新
+            std::unique_ptr<sql::PreparedStatement> insertStmt(
+                conn->prepareStatement("UPDATE files SET status = ?,uploaded_size=? WHERE filename=? AND username=?"));
+            insertStmt->setString(1, "uploading");
+            insertStmt->setUInt64(2, static_cast<uint64_t>(file.uploaded_size));
+            insertStmt->setString(3, (file.filename));
+            insertStmt->setString(4, (file.username));
+            insertStmt->execute();
         }
         // 未传完
         // else
