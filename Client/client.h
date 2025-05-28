@@ -1,5 +1,5 @@
-#ifndef TOOLS_H
-#define TOOLS_H
+#ifndef CLIENT_H
+#define CLIENT_H
 #include <string>
 #include <arpa/inet.h>
 #include "../mysqlPool/mysqlPool.h"
@@ -39,4 +39,4 @@ private:
     void uploadFile(const std::string &filepath);      //上传
 
 };
-#endif //TOOLS_H
+#endif //CLIENT_H

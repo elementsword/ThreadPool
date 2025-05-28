@@ -1,6 +1,9 @@
-#ifndef FILE_H
-#define FILE_H
+#ifndef TOOLS_H
+#define TOOLS_H
 #include <string>
+#include <iostream>
+#include <iomanip>
 
 std::string getFilenameFromPath(const std::string& filepath);
-#endif //FILE_H
+void printProgressBar(int percent, int barWidth = 50);
+#endif //TOOLS_H
